@@ -15,6 +15,7 @@ import type { QuasarPluginOptions } from 'quasar'
 
 // Import Quasar css
 import 'quasar/src/css/index.sass'
+import '@/styles/quasar-custom.sass'
 
 export const quasarOptions: Partial<QuasarPluginOptions> = {
   plugins: { AddressbarColor, Loading, Notify, Dialog },
