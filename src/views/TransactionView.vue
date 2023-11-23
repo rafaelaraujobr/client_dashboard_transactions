@@ -6,13 +6,12 @@
                 <q-icon size="1.2em" name="chevron_right" color="primary" />
             </template>
             <q-breadcrumbs-el label="Principal" to="/" />
-            <q-breadcrumbs-el label="Recursos" />
-            <q-breadcrumbs-el label="Marcas" />
+            <q-breadcrumbs-el label="Transações" />
         </q-breadcrumbs>
         <q-toolbar class="q-px-none q-my-sm">
             <q-toolbar-title> Transações </q-toolbar-title>
             <div class="row q-gutter-md">
-                <q-input v-model="search" type="search" label="Buscar..." dense outlined bg-color="white"
+                <q-input v-model="search" type="search" label="Buscar..." dense outlined bg-color="white" debounce="300"
                     clear-icon="sym_r_close" clearable>
                     <template v-slot:prepend>
                         <q-icon name="sym_r_search" />
@@ -50,8 +49,14 @@
 </template>
   
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import ListTransaction from '@/components/transaction/ListTransaction.vue'
+import { useTransactionComposable } from '@/composables/transactionComposable'
+const { getTransactions, queryTransaction, setQueryTransaction } = useTransactionComposable()
 const filterDialog = ref<boolean>(false)
 const search = ref<string>('')
+watch(search, (value) => {
+    setQueryTransaction({ ...queryTransaction.value, search: value })
+    getTransactions(queryTransaction.value)
+})
 </script>
