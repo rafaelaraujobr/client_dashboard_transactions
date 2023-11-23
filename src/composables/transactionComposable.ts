@@ -5,8 +5,10 @@ import { useQuasar } from 'quasar'
 
 export const useTransactionComposable = () => {
   const $q = useQuasar()
-  const { setTransactions, setTransaction, setCountTransactions, setQueryTransaction } = useTransactionStore()
-  const { transactions, transaction, queryTransaction, countTransactions } = storeToRefs(useTransactionStore())
+  const { setTransactions, setTransaction, setCountTransactions, setQueryTransaction, setFilterTransaction } =
+    useTransactionStore()
+  const { transactions, transaction, queryTransaction, countTransactions, filterTransaction } =
+    storeToRefs(useTransactionStore())
   async function getTransactions(query: any): Promise<void> {
     $q.loading.show()
     try {
@@ -34,8 +36,10 @@ export const useTransactionComposable = () => {
     transaction,
     queryTransaction,
     countTransactions,
+    filterTransaction,
     getTransactions,
     getTransactionById,
-    setQueryTransaction
+    setQueryTransaction,
+    setFilterTransaction
   }
 }
