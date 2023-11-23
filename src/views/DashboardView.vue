@@ -1,7 +1,7 @@
 
 <template>
   <q-page padding>
-    About
+    Dashboard
   </q-page>
 </template>
 
