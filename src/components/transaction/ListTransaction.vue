@@ -1,169 +1,57 @@
 <template>
-    <q-table :rows="rows" row-key="id" flat>
+    <q-table :rows="transactions" row-key="id" flat :columns="columns" :pagination="pagination" hide-pagination>
     </q-table>
+    <div class="row item-center q-mt-sm" :class="$q.screen.lt.sm ? 'justify-center' : 'justify-center'"
+        v-if="countTransactions > pagination.rowsPerPage">
+        <q-pagination v-if="pagination.rowsPerPage !== 0" v-model="page" :max="pagesNumber"
+            :max-pages="$q.screen.lt.sm ? 4 : 9" active-design="unelevated" :color="$q.dark.isActive ? 'white' : 'dark'"
+            active-color="primary" direction-links gutter="sm" />
+    </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
-interface Transaction {
-    id: number
-    client: string
-    price: string
-    quantity: number
-    device: string
-    status: string
-    created_at: string
-    updated_at: string
-}
-const rows = ref<Transaction[]>([
+import { ref, watch, computed } from 'vue'
+import type { QTableProps } from 'quasar';
+import { useTransactionComposable } from '@/composables/transactionComposable'
+import { date } from 'quasar'
+const { getTransactions, transactions, queryTransaction, setQueryTransaction, countTransactions } = useTransactionComposable()
+const pagination = ref<any>({
+    rowsPerPage: 10,
+    sortBy: 'created_at',
+    descending: true
+})
+const page = ref<number>(1)
+const columns = ref<QTableProps['columns']>([
     {
-        "id": 1,
-        "client": "Gonçalves-de Oliveira",
-        "price": "381.76",
-        "quantity": 3,
-        "device": "desktop",
-        "status": "declined",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
+        name: 'id',
+        required: true,
+        label: 'ID',
+        align: 'left',
+        field: 'id',
     },
     {
-        "id": 2,
-        "client": "Saraiva e Filhos",
-        "price": "880.38",
-        "quantity": 2,
-        "device": "desktop",
-        "status": "authorized",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
+        name: 'client',
+        required: true,
+        label: 'Cliente',
+        align: 'left',
+        field: row => row.client,
+        format: val => `${val}`,
     },
-    {
-        "id": 3,
-        "client": "Bezerra e Associados",
-        "price": "9.64",
-        "quantity": 2,
-        "device": "tablet",
-        "status": "declined",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 4,
-        "client": "Deverso Comercial Ltda.",
-        "price": "343.61",
-        "quantity": 1,
-        "device": "tablet",
-        "status": "canceled",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 5,
-        "client": "Benites e Duarte",
-        "price": "762.88",
-        "quantity": 1,
-        "device": "tablet",
-        "status": "canceled",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 6,
-        "client": "Madeira e Rezende",
-        "price": "8.17",
-        "quantity": 3,
-        "device": "tablet",
-        "status": "authorized",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 7,
-        "client": "Serrano-Carvalho",
-        "price": "366.73",
-        "quantity": 3,
-        "device": "tablet",
-        "status": "paid",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 8,
-        "client": "Rezende e Filhos",
-        "price": "478.29",
-        "quantity": 3,
-        "device": "tablet",
-        "status": "authorized",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 9,
-        "client": "Ferraz Ltda.",
-        "price": "938.47",
-        "quantity": 2,
-        "device": "desktop",
-        "status": "paid",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 10,
-        "client": "Ortiz e Flores",
-        "price": "928.82",
-        "quantity": 2,
-        "device": "mobile",
-        "status": "authorized",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 11,
-        "client": "Roque Ltda.",
-        "price": "498.91",
-        "quantity": 3,
-        "device": "tablet",
-        "status": "declined",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 12,
-        "client": "Perez e Rico Ltda.",
-        "price": "700.77",
-        "quantity": 3,
-        "device": "desktop",
-        "status": "canceled",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 13,
-        "client": "Ortega e Escobar",
-        "price": "263.43",
-        "quantity": 1,
-        "device": "tablet",
-        "status": "canceled",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 14,
-        "client": "Caldeira Comercial Ltda.",
-        "price": "481.06",
-        "quantity": 1,
-        "device": "mobile",
-        "status": "declined",
-        "created_at": "2023-11-22 21:12:14",
-        "updated_at": "2023-11-22 21:12:14"
-    },
-    {
-        "id": 15,
-        "client": "Gonçalves e Flores S.A.",
-        "price": "982.04",
-        "quantity": 3,
-        "device": "mobile",
-        "status": "canceled",
-        "created_at": "2023-11-22 21:12:15",
-        "updated_at": "2023-11-22 21:12:15"
+    { name: 'price', align: 'center', label: 'Preço', field: 'price' },
+    { name: 'quantity', align: 'center', label: 'Quantidade', field: 'quantity' },
+    { name: 'device', align: 'center', label: 'Dispositivo', field: 'device' },
+    { name: 'status', align: 'center', label: 'Status', field: 'status', },
+    { name: 'created_at', align: 'center', label: 'Criado em', field: 'created_at', format: val => date.formatDate(val, 'DD/MM/YYYY HH:mm') },
+])
+const pagesNumber = computed<number>(() => Math.ceil((countTransactions.value || 0) / pagination.value.rowsPerPage))
+watch(() => page.value, () => {
+    const query = {
+        page: page.value,
+        perPage: pagination.value.rowsPerPage,
     }
-],)
+    setQueryTransaction({ ...queryTransaction.value, ...query })
+    getTransactions(queryTransaction.value)
+})
+getTransactions(queryTransaction.value)
+
+
 </script>
