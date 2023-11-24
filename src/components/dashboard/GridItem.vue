@@ -4,28 +4,25 @@
             <q-resize-observer @resize="onResize" />
             <q-toolbar style="min-height:40px" class="grid-stack-item__header q-pr-xs ">
                 <q-toolbar-title class="text-body2">
-                    {{ item.id }}
+                    {{ item.content?.title || 'Sem título' }}
                 </q-toolbar-title>
             </q-toolbar>
-            {{ item }}
+            <component :is="component" :size="size" />
         </q-card>
     </div>
 </template>
 <script lang="ts" setup>
 import type { GridStackWidget } from 'gridstack';
-import { ref, watch } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import type { PropType } from 'vue'
 const size = ref({ height: 200, width: 200 })
-const componentKey = ref(0)
 const props = defineProps({
     item: {
         type: Object as PropType<GridStackWidget>,
         required: true
     },
 });
-watch(() => props.item, () => {
-    componentKey.value += 1
-}, { deep: true })
+const component = defineAsyncComponent(() => import(`@/components/dashboard/widgets/${props.item?.content?.component || 'EnptyCard'}.vue`))
 
 function onResize(value: any): void {
     size.value = { ...value, height: value.height - 42 };

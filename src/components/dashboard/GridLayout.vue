@@ -16,25 +16,41 @@ const gridItems = ref<GridStackWidget[]>([{
     y: 0,
     w: 3,
     h: 1,
-    id: '1'
+    id: '1',
+    content: {
+        title: 'Valor Total de Vendas',
+        component: 'MinMaxSales',
+    }
 }, {
     x: 3,
     y: 0,
     w: 3,
     h: 1,
-    id: '2'
+    id: '2',
+    content: {
+        title: 'Quantidade de itens vendidos',
+        component: 'MinMaxSales',
+    }
 }, {
     x: 6,
     y: 0,
     w: 3,
     h: 1,
-    id: '3'
+    id: '3',
+    content: {
+        title: 'Quantidade de transações',
+        component: 'MinMaxSales',
+    }
 }, {
     x: 9,
     y: 0,
     w: 3,
     h: 1,
-    id: '4'
+    id: '4',
+    content: {
+        title: 'Maior e Menor Venda',
+        component: 'MinMaxSales',
+    }
 }, {
     x: 0,
     y: 1,
