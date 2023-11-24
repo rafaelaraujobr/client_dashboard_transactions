@@ -8,3 +8,16 @@
 .wrapper
     max-width: 1400px
     margin: 0 auto
+
+.item-menu-active
+    color: $secondary
+    &::before
+        content: ''
+        position: absolute
+        top: calc( 50% - 20px/2 )
+        left: 0
+        border-radius: 4px
+        width: 3px
+        height: 20px
+        background-color: $secondary
+        transition: opacity 0.2s ease-in-out

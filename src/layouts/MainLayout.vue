@@ -1,5 +1,5 @@
 <template>
-    <q-layout view="hHh lpR fFf">
+    <q-layout view="lHh Lpr fFf">
         <q-header :class="$q.dark.isActive ? 'bg-dark' : 'bg-white text-dark'" reveal bordered>
             <q-toolbar class="q-pl-none">
                 <q-btn icon="sym_r_notes" @click="toggleLeftDrawer" :text-color="$q.dark.isActive ? 'white' : 'primary'"
@@ -17,9 +17,10 @@
                 </div>
             </q-toolbar>
         </q-header>
-        <q-drawer :mini="!leftDrawerOpen || miniState" v-model="leftDrawerOpen" bordered :mini-width="72" show-if-above
-            :class="$q.dark.isActive ? '' : 'bg-white text-dark'">
-            <div class="absolute" :style="`top:45px; right: -18px`">
+        <q-drawer :mini="!leftDrawerOpen || miniState" v-model="leftDrawerOpen" :mini-width="72" show-if-above
+            :class="$q.dark.isActive ? '' : 'bg-primary text-white'">
+            <sidebar-menu :mine="miniState" />
+            <div class="absolute" :style="`top:80px; right: -18px`">
                 <q-btn dense round unelevated :icon="!miniState ? 'sym_r_chevron_left' : 'sym_r_chevron_right'"
                     @click="miniState = !miniState" class="q-card--bordered" :color="$q.dark.isActive ? 'dark' : 'grey-2'"
                     :text-color="$q.dark.isActive ? 'white' : 'primary'" />
@@ -39,6 +40,7 @@
 </template>
   
 <script lang="ts" setup>
+import SidebarMenu from '@/components/SidebarMenu.vue';
 import { ref } from 'vue'
 const leftDrawerOpen = ref<boolean>(false)
 const rightDrawerOpen = ref<boolean>(false)
