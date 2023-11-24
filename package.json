@@ -17,6 +17,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.8",
     "axios": "^1.6.2",
+    "gridstack": "^10.0.0",
     "pinia": "^2.1.7",
     "quasar": "^2.14.0",
     "vue": "^3.3.4",

@@ -1,5 +1,5 @@
 <template>
-    <q-card flat style="min-width: 500px;">
+    <q-card flat style="width: 600px;">
         <q-toolbar>
             <q-toolbar-title class="text-body1">
                 Detalhes
