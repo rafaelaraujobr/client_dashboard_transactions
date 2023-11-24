@@ -34,9 +34,10 @@ const routes: RouteRecordRaw[] = [
         children: [
           {
             path: ':id/',
-            name: 'EditBrand',
+            name: 'TransactionDetail',
             component: () => import(/* webpackChunkName: "brand" */ '@/views/TransactionView.vue'),
-          },
+            props: true
+          }
         ]
       },
       {

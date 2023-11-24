@@ -1,5 +1,21 @@
 <template>
-    <q-table :rows="transactions" row-key="id" flat :columns="columns" :pagination="pagination" hide-pagination>
+    <q-table :rows="transactions" row-key="id" flat :columns="columns" :pagination="pagination" hide-pagination
+        @row-click="onDetaill">
+        <template #body-cell-status="props">
+            <q-td :props="props">
+                <q-chip
+                    :label="props.row.status === 'declined' ? 'Recusado' : props.row.status === 'authorized' ? 'Autorizado' : props.row.status === 'paid' ? 'Pago' : 'Cancelado'"
+                    :color="props.row.status === 'declined' ? 'red-3' : props.row.status === 'authorized' ? 'blue-3' : props.row.status === 'paid' ? 'green-3' : 'yellow-3'"
+                    square />
+            </q-td>
+        </template>
+        <template #body-cell-device="props">
+            <q-td :props="props">
+                <q-chip
+                    :label="props.row.device === 'mobile' ? 'Mobile' : props.row.device === 'tablet' ? 'Tablet' : props.row.device === 'desktop' ? 'PC' : 'Cancelado'"
+                    square />
+            </q-td>
+        </template>
     </q-table>
     <div class="row item-center q-mt-sm" :class="$q.screen.lt.sm ? 'justify-center' : 'justify-center'"
         v-if="countTransactions > pagination.rowsPerPage">
@@ -13,6 +29,8 @@ import { ref, watch, computed } from 'vue'
 import type { QTableProps } from 'quasar';
 import { useTransactionComposable } from '@/composables/transactionComposable'
 import { date } from 'quasar'
+import { useRouter } from 'vue-router'
+const route = useRouter()
 const { getTransactions, transactions, queryTransaction, setQueryTransaction, countTransactions } = useTransactionComposable()
 const pagination = ref<any>({
     rowsPerPage: 10,
@@ -36,13 +54,15 @@ const columns = ref<QTableProps['columns']>([
         field: row => row.client,
         format: val => `${val}`,
     },
-    { name: 'price', align: 'center', label: 'Preço', field: 'price' },
-    { name: 'quantity', align: 'center', label: 'Quantidade', field: 'quantity' },
-    { name: 'device', align: 'center', label: 'Dispositivo', field: 'device' },
-    { name: 'status', align: 'center', label: 'Status', field: 'status', },
-    { name: 'created_at', align: 'center', label: 'Criado em', field: 'created_at', format: val => date.formatDate(val, 'DD/MM/YYYY HH:mm') },
+    { name: 'price', align: 'left', label: 'Valor', field: 'price', format: val => `R$ ${val}` },
+    { name: 'device', align: 'left', label: 'Dispositivo', field: 'device' },
+    { name: 'status', align: 'left', label: 'Status', field: 'status', },
+    { name: 'created_at', align: 'left', label: 'Criado em', field: 'created_at', format: val => date.formatDate(val, 'DD/MM/YYYY HH:mm') },
 ])
 const pagesNumber = computed<number>(() => Math.ceil((countTransactions.value || 0) / pagination.value.rowsPerPage))
+function onDetaill(event: Event, row: any): void {
+    route.push({ name: 'TransactionDetail', params: { id: row.id } })
+}
 watch(() => page.value, () => {
     const query = {
         page: page.value,
@@ -52,6 +72,5 @@ watch(() => page.value, () => {
     getTransactions(queryTransaction.value)
 })
 getTransactions(queryTransaction.value)
-
 
 </script>

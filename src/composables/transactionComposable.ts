@@ -24,11 +24,14 @@ export const useTransactionComposable = () => {
     }
   }
   async function getTransactionById(id: number): Promise<void> {
+    $q.loading.show()
     try {
       const { status, data } = await getTransactionByIdService(id)
       if (status === 200) setTransaction(data)
     } catch (error) {
       console.log(error)
+    } finally {
+      $q.loading.hide()
     }
   }
   return {
@@ -38,6 +41,7 @@ export const useTransactionComposable = () => {
     countTransactions,
     filterTransaction,
     getTransactions,
+    setTransaction,
     getTransactionById,
     setQueryTransaction,
     setFilterTransaction

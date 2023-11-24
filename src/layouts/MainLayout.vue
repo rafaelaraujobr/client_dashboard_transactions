@@ -26,7 +26,7 @@
             </div>
         </q-drawer>
         <q-drawer side="right" v-model="rightDrawerOpen" :class="$q.dark.isActive ? '' : 'bg-white text-dark'" overlay
-            bordered style="border-top: 1px solid rgba(0, 0, 0, 0.12)">
+            bordered>
             <q-toolbar>
                 <q-toolbar-title class="text-body1"> Notificacoes </q-toolbar-title>
                 <q-btn flat round dense icon="sym_r_close" @click="drawerClick" />
@@ -42,7 +42,7 @@
 import { ref } from 'vue'
 const leftDrawerOpen = ref<boolean>(false)
 const rightDrawerOpen = ref<boolean>(false)
-const miniState = ref<boolean>(false)
+const miniState = ref<boolean>(true)
 const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
 }

@@ -22,8 +22,8 @@
                         <q-icon name="sym_r_search" />
                     </template>
                 </q-input>
-                <q-btn :text-color="$q.dark.isActive ? 'white' : ''"
-                    :icon="filterDialog ? 'sym_r_filter_list_off' : 'sym_r_filter_list'"
+                <q-btn :text-color="$q.dark.isActive ? 'white' : 'dark'" :color="$q.dark.isActive ? 'primary' : 'white'"
+                    :icon="filterDialog ? 'sym_r_filter_list_off' : 'sym_r_filter_list'" class="borderless"
                     @click="filterDialog = !filterDialog" dense unelevated padding="sm">
                     <q-badge color="secondary" floating v-if="Object.keys(filterTransaction).length > 0">
                         {{ Object.keys(filterTransaction).length }}</q-badge>
@@ -35,21 +35,36 @@
     <q-dialog v-model="filterDialog" persistent position="right" seamless>
         <filter-list-transaction @close="filterDialog = false" />
     </q-dialog>
+    <q-dialog v-model="detailDialog" persistent>
+        <detail-transaction @close="detailDialog = false" :id="id" />
+    </q-dialog>
 </template>
   
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import ListTransaction from '@/components/transaction/ListTransaction.vue'
 import FilterListTransaction from '@/components/transaction/FilterListTransaction.vue';
+import DetailTransaction from '@/components/transaction/DetailTransaction.vue';
 import { useTransactionComposable } from '@/composables/transactionComposable'
 const { getTransactions, queryTransaction, setQueryTransaction, filterTransaction, setFilterTransaction } = useTransactionComposable()
 const filterDialog = ref<boolean>(false)
+const detailDialog = ref<boolean>(false)
 const search = ref<string>('')
+const props = defineProps({
+    id: {
+        type: String,
+        required: false,
+        default: ''
+    },
+})
 watch(search, (value) => {
     setQueryTransaction({ ...queryTransaction.value, search: value })
     getTransactions(queryTransaction.value)
 })
 
+watch(() => props.id, () => {
+    onOpenDetail()
+})
 function onRemoveFilter(item: string) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [item]: _, ...rest } = filterTransaction.value
@@ -57,4 +72,9 @@ function onRemoveFilter(item: string) {
     setQueryTransaction({ ...queryTransaction.value, [item]: '' })
     getTransactions(queryTransaction.value)
 }
+function onOpenDetail(): void {
+    if (props.id) detailDialog.value = true
+    else detailDialog.value = false
+}
+
 </script>s

@@ -27,11 +27,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, watch } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { useTransactionComposable } from '@/composables/transactionComposable'
 const { setFilterTransaction, queryTransaction, setQueryTransaction, getTransactions, filterTransaction } = useTransactionComposable()
 const emit = defineEmits(['close'])
-const form = reactive<any>({
+interface formParams {
+    [key: string]: string | number | boolean;
+}
+const form = reactive<formParams>({
     region: '',
     paymentMethod: '',
     paymentStatus: '',
@@ -93,15 +96,10 @@ const regionList = [
     { label: 'Roraima', value: 'RR' },
 ]
 
-interface formParams {
-    [key: string]: string | number | boolean;
-}
-
 function filterNonEmptyAttributes(obj: any): formParams {
     for (const key in obj as any)
         if (obj[key] === '') delete obj[key];
         else obj[key] = obj[key].value
-
     return obj;
 }
 
@@ -112,7 +110,6 @@ function onFilter(): void {
     getTransactions(queryTransaction.value)
     emit('close')
 }
-
 
 function onClear(): void {
     setFilterTransaction({})
@@ -127,17 +124,9 @@ function onReset(): void {
     emit('close')
 }
 
-watch(() => filterTransaction.value, () => {
-    onOpen()
-})
-
-
 function onOpen(): void {
-    for (const key in filterTransaction.value) {
-        console.log(key)
+    for (const key in filterTransaction.value)
         form[key] = filterTransaction.value[key]
-    }
-
 }
 onMounted(() => {
     onOpen()
