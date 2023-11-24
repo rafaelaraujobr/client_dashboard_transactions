@@ -1,0 +1,43 @@
+<template>
+    <q-card :style="{ height: `${size.height}px` }" class="no-scroll">
+        <div class="absolute-center" style="min-width: 300px;">
+            <q-item class="text-h4">
+                <q-item-section class="text-center">
+                    <q-item-label class="text-weight-bold">R$ <vue3-autocounter :startAmount="0" :endAmount="amountValue"
+                            :duration="1" :autoinit="true" separator="." /></q-item-label>
+                    <q-item-label class="text-caption" lines="2">Valor total das transações pagas</q-item-label>
+                </q-item-section>
+            </q-item>
+        </div>
+    </q-card>
+    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
+            size="5.5em" />
+    </div>
+</template>
+<script lang="ts" setup>
+import { getWidgetByTypeService } from '@/services/transactionServices';
+import { defineProps, ref } from 'vue';
+import Vue3Autocounter from 'vue3-autocounter';
+defineProps({
+    size: {
+        type: Object,
+        required: true
+    },
+});
+
+const loading = ref<boolean>(false)
+const amountValue = ref<any>({})
+
+async function getAmountValueTransactions(): Promise<void> {
+    loading.value = true
+    try {
+        const { status, data } = await getWidgetByTypeService('revenue') // redraw map to remove markers
+        if (status === 200) amountValue.value = data
+    } catch (error: any) {
+        console.log(error?.response?.data?.message)
+    } finally {
+        loading.value = false
+    }
+}
+getAmountValueTransactions()
+</script>

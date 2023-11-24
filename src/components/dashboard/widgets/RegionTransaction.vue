@@ -6,7 +6,7 @@
         <q-btn icon="sym_r_show_chart" dense flat round unelevated :color="typeChart === 'line' ? 'accent' : ''"
             @click="typeChart = 'line'" />
     </div>
-    <div class="absolute-center fit z-top flex flex-center  bg-grey-4" v-show="loading"> <q-spinner-cube color="primary"
+    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
             size="5.5em" />
     </div>
 </template>
@@ -22,9 +22,11 @@ import {
     LegendComponent, AxisPointerComponent, VisualMapComponent
 } from 'echarts/components';
 import { colors, Dark } from 'quasar'
+import { getWidgetByTypeService } from "@/services/transactionServices";
 const { getPaletteColor } = colors
 const loading = ref<boolean>(false)
-const typeChart = ref<string>('bar')
+const typeChart = ref<string>('line')
+const regions = ref<any[]>([])
 use([
     CanvasRenderer,
     BarChart,
@@ -35,7 +37,7 @@ use([
     AxisPointerComponent,
     GridComponent
 ]);
-const props = defineProps({
+defineProps({
     size: {
         type: Object,
         default: () => ({ height: 100, width: 100 }),
@@ -66,7 +68,7 @@ const option = computed(() => ({
         axisLabel: {
             color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
         },
-        data: ['RJ', 'SP', 'MG', 'ES', 'BA', 'RS', 'SC', 'PR', 'MS', 'MT', 'GO', 'DF', 'TO', 'RO', 'AC', 'AM', 'RR', 'PA', 'AP', 'MA', 'PI', 'CE', 'RN', 'PB', 'PE', 'AL', 'SE'],
+        data: Object.keys(regions.value),
         axisLine: {
             lineStyle: {
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
@@ -94,7 +96,7 @@ const option = computed(() => ({
             label: {
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
             },
-            data: [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330, 1320],
+            data: Object.values(regions.value),
             tooltip: {
                 valueFormatter: function (value: any) {
                     return value + ' transações';
@@ -112,6 +114,23 @@ const option = computed(() => ({
         },
     ]
 }));
+
+
+async function getRegionTransactions() {
+    loading.value = true
+    try {
+        const { status, data } = await getWidgetByTypeService('region') // redraw map to remove markers
+        if (status === 200) regions.value = data
+
+    } catch (error: any) {
+        console.log(error?.response?.data?.message)
+    } finally {
+        loading.value = false
+    }
+}
+
+getRegionTransactions()
+
 </script>
 
 <style></style>

@@ -1,8 +1,12 @@
 <template>
-    <v-chart :option="option" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
+    <v-chart :option="option" :style="`height:${size.height}px;`" class="no-scroll" autoresize />
+    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
+            size="5.5em">
+        </q-spinner-cube>
+    </div>
 </template>
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -21,7 +25,10 @@ use([
     AxisPointerComponent
 ]);
 import { colors, Dark } from 'quasar'
+import { getWidgetByTypeService } from "@/services/transactionServices";
 const { getPaletteColor } = colors
+const loading = ref<boolean>(false)
+const genders = ref<any>({})
 defineProps({
     size: {
         type: Object,
@@ -29,6 +36,21 @@ defineProps({
         required: false,
     },
 });
+
+async function getGenderTransactions(): Promise<void> {
+    loading.value = true
+    try {
+        const { status, data } = await getWidgetByTypeService('gender') // redraw map to remove markers
+        if (status === 200) genders.value = data
+
+    } catch (error: any) {
+        console.log(error?.response?.data?.message)
+    } finally {
+        loading.value = false
+    }
+}
+
+getGenderTransactions()
 
 const option = computed(() => ({
     textStyle: {
@@ -47,8 +69,8 @@ const option = computed(() => ({
         {
             type: 'pie',
             width: '100%',
-            radius: ['70%', '120%'],
-            center: ['50%', '80%'],
+            radius: ['70%', '110%'],
+            center: ['50%', '85%'],
             startAngle: 180,
             color: [getPaletteColor('primary'), getPaletteColor('secondary'), getPaletteColor('accets')],
             itemStyle: {
@@ -62,11 +84,11 @@ const option = computed(() => ({
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
             },
             data: [
-                { value: 40, name: 'Mobile' },
-                { value: 38, name: 'Desktop' },
-                { value: 32, name: 'Tablet' },
+                { value: genders.value?.female, name: 'Female' },
+                { value: genders.value?.male, name: 'Male' },
+                { value: genders.value?.other, name: 'Other' },
                 {
-                    value: 40 + 38 + 32,
+                    value: genders.value?.female + genders.value?.male + genders.value?.other,
                     itemStyle: {
                         color: 'none',
                         decal: {

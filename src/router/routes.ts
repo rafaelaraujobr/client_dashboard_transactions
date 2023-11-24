@@ -3,7 +3,6 @@ import type { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '',
-    name: 'Main',
     component: () => import('@/layouts/MainLayout.vue'),
     meta: {
       requiresAuth: false

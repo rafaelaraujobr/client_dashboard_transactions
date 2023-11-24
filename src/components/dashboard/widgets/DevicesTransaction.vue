@@ -1,8 +1,11 @@
 <template>
     <v-chart :option="option" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
+    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
+            size="5.5em" />
+    </div>
 </template>
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -21,6 +24,7 @@ use([
     AxisPointerComponent
 ]);
 import { colors, Dark } from 'quasar'
+import { getWidgetByTypeService } from "@/services/transactionServices";
 const { getPaletteColor } = colors
 defineProps({
     size: {
@@ -29,6 +33,23 @@ defineProps({
         required: false,
     },
 });
+const loading = ref<boolean>(false)
+const devices = ref<any>({})
+
+async function getDeviceTransactions(): Promise<void> {
+    loading.value = true
+    try {
+        const { status, data } = await getWidgetByTypeService('device') // redraw map to remove markers
+        if (status === 200) devices.value = data
+
+    } catch (error: any) {
+        console.log(error?.response?.data?.message)
+    } finally {
+        loading.value = false
+    }
+}
+
+getDeviceTransactions()
 
 const option = computed(() => ({
     textStyle: {
@@ -48,7 +69,7 @@ const option = computed(() => ({
             name: 'Top Brand',
             type: 'pie',
 
-            radius: [50, 130],
+            radius: [50, 100],
             center: ['50%', '50%'],
             roseType: 'area',
             color: [getPaletteColor('primary'), getPaletteColor('secondary'), getPaletteColor('accets')],
@@ -63,9 +84,9 @@ const option = computed(() => ({
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
             },
             data: [
-                { value: 40, name: 'Mobile' },
-                { value: 38, name: 'Desktop' },
-                { value: 32, name: 'Tablet' },
+                { value: devices.value?.mobile, name: 'Mobile' },
+                { value: devices.value?.desktop, name: 'Desktop' },
+                { value: devices.value?.tablet, name: 'Tablet' },
             ]
         }
     ]

@@ -23,7 +23,8 @@
     "quasar": "^2.14.0",
     "vue": "^3.3.4",
     "vue-echarts": "^6.6.1",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue3-autocounter": "^1.0.6"
   },
   "devDependencies": {
     "@quasar/vite-plugin": "^1.6.0",

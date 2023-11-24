@@ -18,8 +18,8 @@ const gridItems = ref<any[]>([{
     h: 1,
     id: '1',
     content: {
-        title: 'Valor Total de Vendas',
-        component: 'MinMaxSales',
+        title: 'Valor das transações',
+        component: 'AmountValue',
     }
 }, {
     x: 3,
@@ -28,8 +28,8 @@ const gridItems = ref<any[]>([{
     h: 1,
     id: '2',
     content: {
-        title: 'Quantidade de itens vendidos',
-        component: 'MinMaxSales',
+        title: 'Quantidade de itens',
+        component: 'ItemsSold',
     }
 }, {
     x: 6,
@@ -38,8 +38,8 @@ const gridItems = ref<any[]>([{
     h: 1,
     id: '3',
     content: {
-        title: 'Quantidade de transações',
-        component: 'MinMaxSales',
+        title: 'Transações',
+        component: 'AmountTransaction',
     }
 }, {
     x: 9,
@@ -48,7 +48,7 @@ const gridItems = ref<any[]>([{
     h: 1,
     id: '4',
     content: {
-        title: 'Maior e Menor Venda',
+        title: 'Maior e menor valor',
         component: 'MinMaxSales',
     }
 }, {
@@ -80,7 +80,7 @@ const gridItems = ref<any[]>([{
     h: 2,
     id: '7',
     content: {
-        title: 'Transaçoes por genero',
+        title: 'Transaçoes por genero 7',
         component: 'GenderTransaction',
     }
 }, {
@@ -90,7 +90,7 @@ const gridItems = ref<any[]>([{
     h: 3,
     id: '8',
     content: {
-        title: 'Transaçoes por genero',
+        title: 'Transaçoes por genero 8',
         component: 'GenderTransaction',
     }
 }, {
@@ -100,17 +100,15 @@ const gridItems = ref<any[]>([{
     h: 2,
     id: '9',
     content: {
-        title: 'Transaçoes por Região',
+        title: 'Transaçoes por Região 9',
         component: 'RegionTransaction',
     }
 }])
 const options = ref<GridStackOptions>({
-    column: 12,
     maxRow: 0,
     minRow: 6,
     float: true,
     margin: 10,
-    auto: true,
     placeholderClass: 'grid-stack-placeholder',
     placeholderText: 'Drop Here',
     resizable: {
@@ -131,7 +129,6 @@ function onGridReady(options: GridStackOptions): void {
 function onChangeGridStack(gridstackInstance: GridStack): void {
     gridstackInstance.on('change', (event: Event, items: GridStackNode[]) => {
         items.forEach((item: any) => {
-            console.log(item)
             const gridItem = gridItems.value.find((gridItem: GridStackWidget) => gridItem.id === item.el.id)
             const updateItem = {
                 x: item.x,
@@ -141,15 +138,6 @@ function onChangeGridStack(gridstackInstance: GridStack): void {
                 id: item.el.id
             }
             if (gridItem) Object.assign(gridItem, updateItem)
-            console.log(gridItem)
-            // const gridItem = gridItems.value.find((gridItem: GridStackWidget) => gridItem.id === item.id)
-            // if (gridItem) {
-            //     gridItem.x = item.x
-            //     gridItem.y = item.y
-            //     gridItem.w = item.w
-            //     gridItem.h = item.h
-            // }
-            // Object.assign(gridItem.value, item)
         })
     })
 }
