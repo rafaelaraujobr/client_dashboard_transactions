@@ -11,7 +11,7 @@ import { onMounted, ref } from 'vue'
 import { GridStack } from 'gridstack'
 import type { GridStackOptions, GridStackNode, GridStackWidget } from 'gridstack'
 import GridItem from './GridItem.vue'
-const gridItems = ref<GridStackWidget[]>([{
+const gridItems = ref<any[]>([{
     x: 0,
     y: 0,
     w: 3,
@@ -56,33 +56,53 @@ const gridItems = ref<GridStackWidget[]>([{
     y: 1,
     w: 4,
     h: 3,
-    id: '5'
+    id: '5',
+    content: {
+        title: 'Transaçoes por dispositivos',
+        component: 'DevicesTransaction',
+    }
 },
 {
     x: 4,
     y: 1,
     w: 4,
     h: 3,
-    id: '6'
+    id: '6',
+    content: {
+        title: 'Transaçoes por genero',
+        component: 'GenderTransaction',
+    }
 },
 {
     x: 8,
     y: 1,
     w: 4,
     h: 2,
-    id: '7'
+    id: '7',
+    content: {
+        title: 'Transaçoes por genero',
+        component: 'GenderTransaction',
+    }
 }, {
     x: 8,
     y: 3,
     w: 4,
     h: 3,
-    id: '8'
+    id: '8',
+    content: {
+        title: 'Transaçoes por genero',
+        component: 'GenderTransaction',
+    }
 }, {
     x: 0,
     y: 4,
     w: 8,
     h: 2,
-    id: '9'
+    id: '9',
+    content: {
+        title: 'Transaçoes por Região',
+        component: 'RegionTransaction',
+    }
 }])
 const options = ref<GridStackOptions>({
     column: 12,
@@ -110,7 +130,7 @@ function onGridReady(options: GridStackOptions): void {
 }
 function onChangeGridStack(gridstackInstance: GridStack): void {
     gridstackInstance.on('change', (event: Event, items: GridStackNode[]) => {
-        items.forEach((item: GridStackNode) => {
+        items.forEach((item: any) => {
             console.log(item)
             const gridItem = gridItems.value.find((gridItem: GridStackWidget) => gridItem.id === item.el.id)
             const updateItem = {
