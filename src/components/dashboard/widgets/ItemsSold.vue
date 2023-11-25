@@ -27,13 +27,13 @@ defineProps({
 });
 
 const loading = ref<boolean>(false)
-const itemsSold = ref<any>({})
+const itemsSold = ref<any>(0)
 
 async function getItemsSoldTransactions(): Promise<void> {
     loading.value = true
     try {
         const { status, data } = await getWidgetByTypeService('quantity') // redraw map to remove markers
-        if (status === 200) itemsSold.value = data
+        if (status === 200) itemsSold.value = +data
 
     } catch (error: any) {
         console.log(error?.response?.data?.message)

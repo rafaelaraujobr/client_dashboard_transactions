@@ -8,10 +8,20 @@
 <script setup lang="ts">
 import 'gridstack/dist/gridstack.min.css'
 import '@/styles/gridstack-custom.sass'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { GridStack } from 'gridstack'
 import type { GridStackOptions, GridStackNode, GridStackWidget } from 'gridstack'
 import GridItem from './GridItem.vue'
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
+let grid: GridStack
+const heightPanel = computed<number>((): number => $q.screen.height)
+const heightGridStack = computed<number>((): number => {
+    return heightPanel.value - (50 + 24 + 24)
+})
+const row = ref<number>(6)
+const column = ref<number>(12)
+const margin = ref<number>(10)
 const gridItems = ref<any[]>([{
     x: 0,
     y: 0,
@@ -105,22 +115,20 @@ const gridItems = ref<any[]>([{
         component: 'RegionTransaction',
     }
 }])
-const options = ref<GridStackOptions>({
-    maxRow: 20,
-    minRow: 6,
-    cellHeight: 143,
+const options = computed<GridStackOptions>(() => ({
+    row: $q.screen.lt.sm ? 0 : row.value,
+    maxRow: $q.screen.lt.sm ? 0 : row.value,
+    column: column.value,
+    margin: margin.value,
     float: true,
-    margin: 10,
-    placeholderClass: 'grid-stack-placeholder',
-    placeholderText: 'Drop Here',
-    // resizable: {
-    //     handles: 'e, se, s, sw, w'
-    // },
+    removable: '.grid-stack-trash',
+    acceptWidgets: () => true,
+    cellHeight: heightGridStack.value / row.value,
+    resizable: { handles: 'se, sw' },
     draggable: {
         handle: '.grid-stack-item__header'
     }
-})
-let grid: GridStack
+}))
 function onGridReady(options: GridStackOptions): void {
     grid = GridStack.init(options)
     if (grid) {
@@ -143,6 +151,13 @@ function onChangeGridStack(gridstackInstance: GridStack): void {
         })
     })
 }
+watch(() => $q.fullscreen.isActive, (value: boolean) => {
+    console.log('fullscreen', value)
+})
+
+watch(heightPanel, (): void => {
+    if (grid) grid.cellHeight(heightGridStack.value / row.value)
+})
 
 
 onMounted(() => {

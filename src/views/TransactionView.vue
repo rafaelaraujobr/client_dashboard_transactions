@@ -16,14 +16,14 @@
                     <q-chip removable @remove="onRemoveFilter(item)" icon-remove="sym_r_close" :label="item"
                         text-color="white" color="primary" />
                 </template>
-                <q-input v-model="search" type="search" label="Buscar..." dense outlined bg-color="white" debounce="300"
+                <q-input v-model="search" type="search" label="Buscar..." dense outlined :bg-color="$q.dark.isActive ? 'grey-10' : 'white'" debounce="300"
                     clear-icon="sym_r_close" clearable>
                     <template v-slot:prepend>
                         <q-icon name="sym_r_search" />
                     </template>
                 </q-input>
                 <q-btn :text-color="$q.dark.isActive ? 'white' : 'dark'" :color="$q.dark.isActive ? 'primary' : 'white'"
-                    :icon="filterDialog ? 'sym_r_filter_list_off' : 'sym_r_filter_list'" class="borderless"
+                    :icon="filterDialog ? 'sym_r_filter_list_off' : 'sym_r_filter_list'" class="borderless q-card--bordered"
                     @click="filterDialog = !filterDialog" dense unelevated padding="sm">
                     <q-badge color="secondary" floating v-if="Object.keys(filterTransaction).length > 0">
                         {{ Object.keys(filterTransaction).length }}</q-badge>

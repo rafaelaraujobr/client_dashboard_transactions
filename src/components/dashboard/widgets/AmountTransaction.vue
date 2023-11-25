@@ -27,13 +27,13 @@ defineProps({
 });
 
 const loading = ref<boolean>(false)
-const amount = ref<any>({})
+const amount = ref<any>(0)
 
 async function getAmountTransactions(): Promise<void> {
     loading.value = true
     try {
         const { status, data } = await getWidgetByTypeService('transactions') // redraw map to remove markers
-        if (status === 200) amount.value = data
+        if (status === 200) amount.value = +data
 
     } catch (error: any) {
         console.log(error?.response?.data?.message)

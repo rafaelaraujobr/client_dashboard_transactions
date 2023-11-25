@@ -1,6 +1,6 @@
 <template>
     <q-layout view="hHh Lpr fFf">
-        <q-header reveal bordered>
+        <q-header reveal>
             <q-toolbar class="q-pl-none">
                 <q-btn icon="sym_r_notes" @click="toggleLeftDrawer" unelevated dense flat padding="13px 23.6px"
                     class="no-border-radius" />
@@ -14,8 +14,7 @@
                     <q-btn flat dense round unelevated
                         @click="$q.fullscreen.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
                         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
-                    <q-btn flat dense round unelevated
-                        @click="$q.dark.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
+                    <q-btn flat dense round unelevated @click="$q.dark.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
                         :icon="$q.dark.isActive ? 'sym_r_dark_mode' : 'sym_r_light_mode'" />
                     <q-btn icon="sym_r_notifications" @click="rightDrawerOpen = !rightDrawerOpen" dense round unelevated>
                         <q-badge color="red" floating>0</q-badge>
@@ -36,7 +35,7 @@
             bordered>
             <q-toolbar>
                 <q-toolbar-title class="text-body1"> Notificacoes </q-toolbar-title>
-                <q-btn flat round dense icon="sym_r_close" @click="drawerClick" />
+                <q-btn flat round dense icon="sym_r_close" @click="rightDrawerOpen = false" />
             </q-toolbar>
         </q-drawer>
         <q-page-container :class="!$q.dark.isActive ? 'bg-grey-1' : ''">
@@ -53,11 +52,5 @@ const rightDrawerOpen = ref<boolean>(false)
 const miniState = ref<boolean>(true)
 const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
-}
-function drawerClick(e: Event) {
-    if (miniState.value) {
-        miniState.value = false
-        e.stopPropagation()
-    }
 }
 </script>
