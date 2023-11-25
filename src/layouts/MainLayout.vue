@@ -1,10 +1,10 @@
 <template>
     <q-layout view="hHh Lpr fFf">
-        <q-header reveal>
+        <q-header>
             <q-toolbar class="q-pl-none">
                 <q-btn icon="sym_r_notes" @click="toggleLeftDrawer" unelevated dense flat padding="13px 23.6px"
                     class="no-border-radius" />
-                <q-separator vertical dark />
+                <q-separator inset vertical dark />
                 <q-toolbar-title>
                     <q-img src="@/assets/logotipo.svg" width="150px" /> <q-badge class="absolute text-caption"
                         color="secondary" style="top: 5px">beta</q-badge>

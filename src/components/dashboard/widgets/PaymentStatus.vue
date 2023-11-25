@@ -1,7 +1,7 @@
 <template>
     <v-chart :option="options" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
-    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
-            size="5.5em" />
+    <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
+        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
@@ -26,7 +26,8 @@ use([
 ]);
 import { colors, Dark } from 'quasar'
 import { getWidgetByTypeService } from "@/services/transactionServices";
-const { getPaletteColor } = colors
+import { graphic } from "echarts";
+const { getPaletteColor, changeAlpha } = colors
 defineProps({
     size: {
         type: Object,
@@ -70,22 +71,34 @@ const options = computed(() => ({
         type: 'category',
         axisTick: {
             show: false,
-            color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+            color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
+        },
+        axisPointer: {
+            lineStyle: {
+                color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),// Cor desejada
+            },
         },
         axisLabel: {
-            color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+            color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
         },
-        data: Object.keys(paymentStatus.value),
+        // data: Object.keys(paymentStatus.value),
+        data: ['Autorizado', 'Pago', 'Cancelado', 'Recusado', 'Devolvido', 'Em Análise'],
         axisLine: {
             lineStyle: {
-                color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+                color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
             }
         }
     },
     yAxis: {
         type: 'value',
         axisLabel: {
-            color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+            color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
+        },
+        splitLine: {
+            show: true,
+            lineStyle: {
+                color: Dark.isActive ? getPaletteColor('grey-9') : getPaletteColor('grey-2'),
+            }
         },
     },
     grid: {
@@ -99,7 +112,34 @@ const options = computed(() => ({
         {
             name: 'Payment Status',
             type: 'bar',
-            data: Object.values(paymentStatus.value),
+            data: Object.values(paymentStatus.value).map((item: any) => {
+                const value = Math.max.apply(null, Object.values(paymentStatus.value));
+                return item === value ? {
+                    value: item, itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: getPaletteColor('secondary')
+                            },
+                            {
+                                offset: 1,
+                                color: changeAlpha(getPaletteColor('secondary'), 0.5)
+                            }])
+                    }
+                } : {
+                    value: item, itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: getPaletteColor('accent')
+                            },
+                            {
+                                offset: 1,
+                                color: getPaletteColor('primary')
+                            }])
+                    }
+                }
+            }),
             color: getPaletteColor('primary'),
             label: {
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
@@ -111,7 +151,7 @@ const options = computed(() => ({
                 }
             },
             itemStyle: {
-                borderRadius: [4, 4, 0, 0],
+                borderRadius: [8, 8, 0, 0],
             }
         }
     ]

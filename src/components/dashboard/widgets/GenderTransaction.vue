@@ -1,7 +1,7 @@
 <template>
     <v-chart :option="option" :style="`height:${size.height}px;`" class="no-scroll" autoresize />
-    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
-            size="5.5em">
+    <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
+        v-show="loading"> <q-spinner-cube color="primary" size="5.5em">
         </q-spinner-cube>
     </div>
 </template>
@@ -26,7 +26,8 @@ use([
 ]);
 import { colors, Dark } from 'quasar'
 import { getWidgetByTypeService } from "@/services/transactionServices";
-const { getPaletteColor } = colors
+import { graphic } from "echarts";
+const { getPaletteColor, changeAlpha } = colors
 const loading = ref<boolean>(false)
 const genders = ref<any>({})
 defineProps({
@@ -81,7 +82,6 @@ const option = computed(() => ({
             radius: ['70%', '110%'],
             center: ['50%', '85%'],
             startAngle: 180,
-            color: [getPaletteColor('primary'), getPaletteColor('secondary'), getPaletteColor('accets')],
             itemStyle: {
                 borderRadius: 8,
                 fontFamily: 'Poppins',
@@ -93,9 +93,45 @@ const option = computed(() => ({
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
             },
             data: [
-                { value: genders.value?.female, name: 'Female' },
-                { value: genders.value?.male, name: 'Male' },
-                { value: genders.value?.other, name: 'Other' },
+                {
+                    value: genders.value?.female, name: 'Mulheres', itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: getPaletteColor('secondary')
+                            },
+                            {
+                                offset: 1,
+                                color: changeAlpha(getPaletteColor('secondary'), 0.5)
+                            }])
+                    }
+                },
+                {
+                    value: genders.value?.male, name: 'Homens', itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 1,
+                                color: getPaletteColor('primary')
+                            },
+                            {
+                                offset: 0,
+                                color: changeAlpha(getPaletteColor('primary'), 0.5)
+                            }])
+                    }
+                },
+                {
+                    value: genders.value?.other, name: 'Outros', itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: getPaletteColor('accent')
+                            },
+                            {
+                                offset: 1,
+                                color: changeAlpha(getPaletteColor('accent'), 0.8)
+                            }])
+                    }
+                },
                 {
                     value: genders.value?.female + genders.value?.male + genders.value?.other,
                     itemStyle: {

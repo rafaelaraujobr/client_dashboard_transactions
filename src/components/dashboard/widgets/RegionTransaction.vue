@@ -61,20 +61,20 @@ const option = computed(() => ({
     },
     xAxis: {
         type: 'category',
-        boundaryGap: false,
+        // boundaryGap: false,
+        data: Object.keys(regions.value),
         axisTick: {
             show: false,
             color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
         },
         axisPointer: {
             lineStyle: {
-                color: 'red' // Cor desejada
-            }
+                color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),// Cor desejada
+            },
         },
         axisLabel: {
             color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
         },
-        data: Object.keys(regions.value),
         axisLine: {
             lineStyle: {
                 color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
@@ -85,6 +85,12 @@ const option = computed(() => ({
         type: 'value',
         axisLabel: {
             color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
+        },
+        splitLine: {
+            show: true,
+            lineStyle: {
+                color: Dark.isActive ? getPaletteColor('grey-9') : getPaletteColor('grey-2'),
+            }
         },
     },
     grid: {

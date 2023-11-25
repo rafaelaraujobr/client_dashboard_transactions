@@ -9,6 +9,133 @@
     max-width: 1400px
     margin: 0 auto
 
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+    -webkit-box-shadow: 0 0 0 30px white inset !important
+.q-field--standard
+    .q-field__control:before
+        border-color: $secondary !important
+    .q-field__control:before, .q-field__control:after
+        z-index: 20
+.q-field--outlined
+    .q-field__control:before
+        border: 1px solid rgba(0, 0, 0, 0.12)
+.q-field__bottom
+    padding: 4px 4px 0
+.q-checkbox__bg
+    border-radius: 4px
+.q-field__marginal
+    height: auto !important
+
+.q-stepper__header--alternative-labels
+    .q-stepper__tab
+        min-height: 0
+        padding: 16px 32px
+
+.q-stepper--horizontal .q-stepper__step-inner
+    padding: 0 !important
+
+.q-stepper__dot
+    height: 40px
+    width: 40px
+    font-size: 24px
+    border: 1px solid $border-color
+    background: transparent
+    span
+        color: $primary
+
+.q-stepper__tab--active
+    .q-stepper__dot
+        border: 1px solid $primary
+        background: $primary
+        span
+            color: white
+
+.q-stepper__tab--done
+    .q-stepper__dot
+        background: transparent
+        span
+            color: $positive
+
+.q-item--dense
+    min-height: 24px
+
+.q-dialog__backdrop
+    background: rgba(0, 0, 0, 0.185)
+    backdrop-filter: blur(2.5px)
+    -webkit-backdrop-filter: blur( 2.5px )
+
+.table-card
+    table
+        background: #fafafa
+        border-collapse: separate
+        border-spacing: 0 5px
+        thead
+            tr
+                height: auto
+            th
+                font-weight: 600 !important
+
+        &:first-child th
+            background-color: #fafafa
+        tbody tr
+            transition: all 0.2s ease-in-out
+            background-color: white
+            &:hover
+                background-color: white
+                td
+                    padding: 8px
+            // &:nth-child(even)
+            //     background-color: #fafafa
+            // &:nth-child(odd)
+            //     background-color: white
+            &:hover td
+                // border-color: $primary
+                cursor: pointer
+            td
+                transition: all 0.2s ease-in-out
+                &:first-child
+                    border-radius: $generic-border-radius 0 0 $generic-border-radius
+                    border-width: 1px 0 1px 1px
+                &:last-child
+                    border-radius: 0 $generic-border-radius $generic-border-radius 0
+                    border-width: 1px 1px 1px 0
+                &:not(:first-child):not(:last-child)
+                    border-width: 1px 0 1px 0
+.body--dark
+    .table-card
+        table
+            background: transparent
+            thead
+                th
+                    background: transparent!important
+            &:first-child th
+                background-color: $dark
+            tbody tr
+                background-color: $grey-10
+                    // transition: opacity 0.2s ease-in-out
+        .q-table__bottom
+            background: $dark!important
+
+.list-grid-item
+    transition: all 0.2s ease-in-out
+    .action-button
+        opacity: 0
+        positition: absolute
+        visibility: hiddens
+        transform: translateY(10px)
+        transition: all 0.2s ease-in-out
+    &:hover
+        cursor: pointer
+        border-color: $primary
+        .action-button
+            opacity: 1
+            visibility: visible
+            transform: translateY(0)
+
 .item-menu-active
     color: $secondary
     &::before

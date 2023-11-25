@@ -25,7 +25,8 @@ use([
 ]);
 import { colors, Dark } from 'quasar'
 import { getWidgetByTypeService } from "@/services/transactionServices";
-const { getPaletteColor } = colors
+import { graphic } from "echarts";
+const { getPaletteColor, changeAlpha } = colors
 defineProps({
     size: {
         type: Object,
@@ -78,7 +79,7 @@ const option = computed(() => ({
             name: 'Payment Methods',
             type: 'pie',
             roseType: 'area',
-            color: [getPaletteColor('primary'), getPaletteColor('secondary'), getPaletteColor('accent'), getPaletteColor('dark')],
+            color: [getPaletteColor('secondary'), getPaletteColor('primary'), getPaletteColor('accent'), Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10')],
             itemStyle: {
                 borderRadius: 8,
                 fontFamily: 'Poppins',
@@ -90,10 +91,59 @@ const option = computed(() => ({
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
             },
             data: [
-                { value: paymentMethods.value?.credit_card, name: 'Credito' },
-                { value: paymentMethods.value?.debit_card, name: 'Debito' },
-                { value: paymentMethods.value?.pix, name: 'Pix' },
-                { value: paymentMethods.value?.ticket, name: 'Boleto' },
+                {
+                    value: paymentMethods.value?.credit_card, name: 'Credito', itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 1,
+                                color: getPaletteColor('secondary')
+                            },
+                            {
+                                offset: 0,
+                                color: changeAlpha(getPaletteColor('secondary'), 0.7)
+                            }])
+                    }
+                },
+                {
+                    value: paymentMethods.value?.debit_card, name: 'Debito', itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: Dark.isActive ? getPaletteColor('grey-4') : getPaletteColor('grey-10')
+                            },
+                            {
+                                offset: 1,
+                                color: changeAlpha(Dark.isActive ? getPaletteColor('grey-4') : getPaletteColor('grey-10'), 0.8)
+                            }])
+                    }
+                },
+                {
+                    value: paymentMethods.value?.pix, name: 'Pix', itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: getPaletteColor('primary')
+                            },
+                            {
+                                offset: 1,
+                                color: changeAlpha(getPaletteColor('primary'), 0.7)
+                            }])
+                    }
+                },
+                {
+                    value: paymentMethods.value?.ticket, name: 'Boleto',
+                    itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 1,
+                                color: getPaletteColor('accent')
+                            },
+                            {
+                                offset: 0,
+                                color: changeAlpha(getPaletteColor('accent'), 0.7)
+                            }])
+                    }
+                },
             ]
         }
     ]

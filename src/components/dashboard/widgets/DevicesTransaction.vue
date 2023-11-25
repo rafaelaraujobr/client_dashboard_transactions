@@ -62,7 +62,7 @@ const option = computed(() => ({
             type: 'pie',
             radius: [50, 100],
             center: ['50%', '50%'],
-            color: [getPaletteColor('primary'), getPaletteColor('secondary'), getPaletteColor('accets')],
+            color: [getPaletteColor('secondary'), getPaletteColor('primary'), getPaletteColor('accent')],
             itemStyle: {
                 borderRadius: 8,
                 fontFamily: 'Poppins',

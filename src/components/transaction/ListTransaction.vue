@@ -1,12 +1,12 @@
 <template>
     <q-table :rows="transactions" row-key="id" flat :columns="columns" :pagination="pagination" hide-pagination
-        @row-click="onDetaill">
+        class="table-card bg-transparent" @row-click="onDetaill">
         <template #body-cell-status="props">
             <q-td :props="props">
                 <q-chip
-                    :label="props.row.status === 'declined' ? 'Recusado' : props.row.status === 'authorized' ? 'Autorizado' : props.row.status === 'paid' ? 'Pago' : 'Cancelado'"
-                    :color="props.row.status === 'declined' ? 'red-3' : props.row.status === 'authorized' ? 'blue-3' : props.row.status === 'paid' ? 'green-3' : 'yellow-3'"
-                    square />
+                    :label="props.row.status === 'declined' ? 'Recusado' : props.row.status === 'authorized' ? 'Autorizado' : props.row.status === 'paid' ? 'Pago' : props.row.status === 'canceled' ? 'Cancelado' : props.row.status === 'refunded' ? 'Devolvido' : 'Em Análise'"
+                    :color="props.row.status === 'declined' ? 'negative' : props.row.status === 'authorized' ? 'blue' : props.row.status === 'paid' ? 'positive' : props.row.status === 'canceled' ? 'warning' : props.row.status === 'refunded' ? 'orange' : 'dark'"
+                    text-color="white" square />
             </q-td>
         </template>
         <template #body-cell-device="props">
