@@ -14,7 +14,7 @@
                     <q-btn flat dense round unelevated
                         @click="$q.fullscreen.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
                         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
-                    <q-btn flat dense round unelevated @click="$q.dark.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
+                    <q-btn flat dense round unelevated @click="$q.dark.toggle()"
                         :icon="$q.dark.isActive ? 'sym_r_dark_mode' : 'sym_r_light_mode'" />
                     <q-btn icon="sym_r_notifications" @click="rightDrawerOpen = !rightDrawerOpen" dense round unelevated>
                         <q-badge color="red" floating>0</q-badge>

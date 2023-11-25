@@ -1,5 +1,5 @@
 <template>
-    <div class="grid-stack-item" :gs-x="item.x" :gs-y="item.y" :gs-w="item.w" :gs-h="item.h" :id="item.id">
+    <div class="grid-stack-item" :gs-x="item.x" :gs-y="item.y" :gs-w="item.w" :gs-h="item.h" :gs-min-w="item.minW" :gs-min-h="item.minH">
         <q-card class="grid-stack-item-content " flat bordered>
             <q-resize-observer @resize="onResize" />
             <q-toolbar style="min-height:40px" class="grid-stack-item__header q-pr-xs ">

@@ -27,6 +27,8 @@ const gridItems = ref<any[]>([{
     y: 0,
     w: 3,
     h: 1,
+    minH: 1,
+    minW: 2,
     id: '1',
     content: {
         title: 'Valor das transações',
@@ -37,6 +39,8 @@ const gridItems = ref<any[]>([{
     y: 0,
     w: 3,
     h: 1,
+    minH: 1,
+    minW: 2,
     id: '2',
     content: {
         title: 'Quantidade de itens',
@@ -47,6 +51,8 @@ const gridItems = ref<any[]>([{
     y: 0,
     w: 3,
     h: 1,
+    minH: 1,
+    minW: 2,
     id: '3',
     content: {
         title: 'Transações',
@@ -57,6 +63,8 @@ const gridItems = ref<any[]>([{
     y: 0,
     w: 3,
     h: 1,
+    minH: 1,
+    minW: 3,
     id: '4',
     content: {
         title: 'Maior e menor valor',
@@ -67,6 +75,8 @@ const gridItems = ref<any[]>([{
     y: 1,
     w: 4,
     h: 3,
+    minH: 3,
+    minW: 2,
     id: '5',
     content: {
         title: 'Transaçoes por dispositivos',
@@ -78,6 +88,8 @@ const gridItems = ref<any[]>([{
     y: 1,
     w: 4,
     h: 3,
+    minH: 2,
+    minW: 3,
     id: '6',
     content: {
         title: 'Metodos de pagamento',
@@ -89,6 +101,8 @@ const gridItems = ref<any[]>([{
     y: 1,
     w: 4,
     h: 2,
+    minH: 2,
+    minW: 2,
     id: '7',
     content: {
         title: 'Status de pagamento',
@@ -99,6 +113,8 @@ const gridItems = ref<any[]>([{
     y: 3,
     w: 4,
     h: 3,
+    minH: 2,
+    minW: 3,
     id: '8',
     content: {
         title: 'Transaçoes por genero',
@@ -109,6 +125,8 @@ const gridItems = ref<any[]>([{
     y: 4,
     w: 8,
     h: 2,
+    minH: 2,
+    minW: 2,
     id: '9',
     content: {
         title: 'Transaçoes por Região',

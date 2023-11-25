@@ -6,8 +6,8 @@
         <q-btn icon="sym_r_show_chart" dense flat round unelevated :color="typeChart === 'line' ? 'accent' : ''"
             @click="typeChart = 'line'" />
     </div>
-    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
-            size="5.5em" />
+    <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
+        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
@@ -16,11 +16,10 @@ import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { BarChart, LineChart } from 'echarts/charts';
-import { GridComponent } from 'echarts/components'
 import { graphic } from 'echarts'
 import {
     TooltipComponent,
-    LegendComponent, AxisPointerComponent, VisualMapComponent
+    LegendComponent, AxisPointerComponent, VisualMapComponent, GridComponent
 } from 'echarts/components';
 import { colors, Dark } from 'quasar'
 import { getWidgetByTypeService } from "@/services/transactionServices";
@@ -62,24 +61,30 @@ const option = computed(() => ({
     },
     xAxis: {
         type: 'category',
+        boundaryGap: false,
         axisTick: {
             show: false,
-            color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+            color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
+        },
+        axisPointer: {
+            lineStyle: {
+                color: 'red' // Cor desejada
+            }
         },
         axisLabel: {
-            color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+            color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
         },
         data: Object.keys(regions.value),
         axisLine: {
             lineStyle: {
-                color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+                color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
             }
         }
     },
     yAxis: {
         type: 'value',
         axisLabel: {
-            color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+            color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
         },
     },
     grid: {
@@ -92,6 +97,7 @@ const option = computed(() => ({
     series: [
         {
             type: typeChart.value,
+            smooth: true,
             areaStyle: {
                 color: new graphic.LinearGradient(0, 0, 0, 1, [
                     {
@@ -105,7 +111,7 @@ const option = computed(() => ({
             },
             color: getPaletteColor('primary'),
             label: {
-                color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
+                color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
             },
             data: Object.values(regions.value),
             tooltip: {
@@ -121,6 +127,7 @@ const option = computed(() => ({
             },
             itemStyle: {
                 borderRadius: [4, 4, 0, 0],
+                color: getPaletteColor('accent'),
             }
         },
     ]

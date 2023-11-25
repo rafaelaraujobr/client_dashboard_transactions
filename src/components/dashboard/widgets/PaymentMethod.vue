@@ -1,7 +1,7 @@
 <template>
     <v-chart :option="option" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
-    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
-            size="5.5em" />
+    <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
+        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
@@ -90,8 +90,8 @@ const option = computed(() => ({
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
             },
             data: [
-                { value: paymentMethods.value?.credit_card, name: 'Cartão de credito' },
-                { value: paymentMethods.value?.debit_card, name: 'Cartão de debito' },
+                { value: paymentMethods.value?.credit_card, name: 'Credito' },
+                { value: paymentMethods.value?.debit_card, name: 'Debito' },
                 { value: paymentMethods.value?.pix, name: 'Pix' },
                 { value: paymentMethods.value?.ticket, name: 'Boleto' },
             ]

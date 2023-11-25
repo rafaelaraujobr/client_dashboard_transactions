@@ -1,7 +1,7 @@
 <template>
     <v-chart :option="option" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
-    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
-            size="5.5em" />
+    <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
+        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
@@ -14,7 +14,8 @@ import {
     TooltipComponent,
     LegendComponent, AxisPointerComponent, VisualMapComponent
 } from 'echarts/components';
-
+import { colors, Dark } from 'quasar'
+import { getWidgetByTypeService } from "@/services/transactionServices";
 use([
     CanvasRenderer,
     PieChart,
@@ -23,8 +24,6 @@ use([
     VisualMapComponent,
     AxisPointerComponent
 ]);
-import { colors, Dark } from 'quasar'
-import { getWidgetByTypeService } from "@/services/transactionServices";
 const { getPaletteColor } = colors
 defineProps({
     size: {
@@ -35,22 +34,6 @@ defineProps({
 });
 const loading = ref<boolean>(false)
 const devices = ref<any>({})
-
-async function getDeviceTransactions(): Promise<void> {
-    loading.value = true
-    try {
-        const { status, data } = await getWidgetByTypeService('device') // redraw map to remove markers
-        if (status === 200) devices.value = data
-
-    } catch (error: any) {
-        console.log(error?.response?.data?.message)
-    } finally {
-        loading.value = false
-    }
-}
-
-getDeviceTransactions()
-
 const option = computed(() => ({
     textStyle: {
         fontFamily: 'Poppins',
@@ -98,6 +81,21 @@ const option = computed(() => ({
         }
     ]
 }));
+
+async function getDeviceTransactions(): Promise<void> {
+    loading.value = true
+    try {
+        const { status, data } = await getWidgetByTypeService('device')
+        if (status === 200) devices.value = data
+
+    } catch (error: any) {
+        console.log(error?.response?.data?.message)
+    } finally {
+        loading.value = false
+    }
+}
+
+getDeviceTransactions()
 </script>
 
 <style></style>

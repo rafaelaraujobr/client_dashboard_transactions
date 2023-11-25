@@ -10,13 +10,14 @@
             </q-item>
         </div>
     </q-card>
-    <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
-            size="5.5em" />
+    <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
+        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
 import { getWidgetByTypeService } from '@/services/transactionServices';
 import { defineProps, ref } from 'vue';
+import { Dark } from 'quasar'
 import Vue3Autocounter from 'vue3-autocounter';
 
 defineProps({
@@ -27,7 +28,7 @@ defineProps({
 });
 
 const loading = ref<boolean>(false)
-const amount = ref<any>(0)
+const amount = ref<number>(0)
 
 async function getAmountTransactions(): Promise<void> {
     loading.value = true
