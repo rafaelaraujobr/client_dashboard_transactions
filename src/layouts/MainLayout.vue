@@ -6,8 +6,9 @@
                     class="no-border-radius" />
                 <q-separator inset vertical dark />
                 <q-toolbar-title>
-                    <q-img src="@/assets/logotipo.svg" width="150px" /> <q-badge class="absolute text-caption"
-                        color="secondary" style="top: 5px">beta</q-badge>
+                    <!-- <q-img src="@/assets/logotipo.svg" width="150px" /> -->
+                    <q-skeleton :type="'react'" style="width: 150px"  class="bg-secondary" />
+                    <!-- <q-badge class="absolute text-caption" color="secondary" style="top: 5px">beta</q-badge> -->
                 </q-toolbar-title>
                 <q-space />
                 <div class="q-gutter-md">

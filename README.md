@@ -2,11 +2,11 @@
 
 ## Screenshot
 
-![Dashboard](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940148/Captura_da_Web_25-11-2023_162120_localhost_o6iqy1.jpg)
+![Dashboard](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700941709/unrditdsb5lb8j2vwq3q.jpg)
 
-![Dashboard modo dark](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940401/Captura_da_Web_25-11-2023_162613_localhost_snjici.jpg)
+![Dashboard modo dark](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700941709/uyrujwjlpbz9na9ddixz.jpg)
 
-![Lista de transacoes](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940490/Captura_da_Web_25-11-2023_162753_localhost_csgepp.jpg)
+![Lista de transacoes](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700941709/hrsx36rmepglfrf8ysxz.jpg)
 
 ## Configuração IDE recomendada
 
