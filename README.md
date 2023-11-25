@@ -4,9 +4,9 @@
 
 ![Dashboard](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940148/Captura_da_Web_25-11-2023_162120_localhost_o6iqy1.jpg)
 
-![Dashboard modo dark]((https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940401/Captura_da_Web_25-11-2023_162613_localhost_snjici.jpg))
+![Dashboard modo dark](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940401/Captura_da_Web_25-11-2023_162613_localhost_snjici.jpg)
 
-![Lista de transacoes]((https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940490/Captura_da_Web_25-11-2023_162753_localhost_csgepp.jpg))
+![Lista de transacoes](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700940490/Captura_da_Web_25-11-2023_162753_localhost_csgepp.jpg)
 
 ## Recommended IDE Setup
 
