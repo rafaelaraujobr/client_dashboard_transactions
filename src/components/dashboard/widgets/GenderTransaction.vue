@@ -57,10 +57,19 @@ const option = computed(() => ({
         fontFamily: 'Poppins',
         fontSize: '13px',
     },
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'cross',
+            crossStyle: {
+                color: getPaletteColor('secondary')
+            }
+        }
+    },
     legend: {
         orient: 'horizontal',
         top: 'top',
-        icon: 'rect',
+        icon: 'roundRect',
         textStyle: {
             color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
         }

@@ -6,15 +6,15 @@
                     <q-avatar color="positive" text-color="white" icon="sym_r_north" font-size="30px" size="50px" />
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label class="text-weight-bold">R$ <vue3-autocounter :startAmount="0" :endAmount="minMax.max"
+                    <q-item-label class="text-weight-bold number">R$ <vue3-autocounter :startAmount="0" :endAmount="minMax.max"
                             :duration="1" :autoinit="true" separator="." /></q-item-label>
                     <q-item-label class="text-caption" lines="2">Maior valor</q-item-label>
                 </q-item-section>
                 <q-item-section avatar class="q-mr-md">
                     <q-avatar color="negative" text-color="white" icon="sym_r_south" font-size="30px" size="50px" />
-                </q-item-section>S
+                </q-item-section>
                 <q-item-section>
-                    <q-item-label class="text-weight-bold"> R$ <vue3-autocounter :startAmount="0" :endAmount="minMax.min"
+                    <q-item-label class="text-weight-bold number">R$ <vue3-autocounter :startAmount="0" :endAmount="minMax.min"
                             :duration="1" :autoinit="true" separator="." /></q-item-label>
                     <q-item-label lines="2" class="text-caption">Menor valor </q-item-label>
                 </q-item-section>

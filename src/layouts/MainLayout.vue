@@ -1,24 +1,27 @@
 <template>
-    <q-layout view="lHh Lpr fFf">
-        <q-header :class="$q.dark.isActive ? 'bg-dark' : 'bg-white text-dark'" reveal bordered>
+    <q-layout view="hHh Lpr fFf">
+        <q-header reveal bordered>
             <q-toolbar class="q-pl-none">
-                <q-btn icon="sym_r_notes" @click="toggleLeftDrawer" :text-color="$q.dark.isActive ? 'white' : 'primary'"
-                    unelevated dense flat padding="13px 23.6px" class="no-border-radius" />
-                <q-separator vertical />
+                <q-btn icon="sym_r_notes" @click="toggleLeftDrawer" unelevated dense flat padding="13px 23.6px"
+                    class="no-border-radius" />
+                <q-separator vertical dark />
                 <q-toolbar-title>
-                    logotipo <q-badge class="absolute text-caption" color="dark" style="top: 5px">beta</q-badge>
+                    <q-img src="@/assets/logotipo.svg" width="150px" /> <q-badge class="absolute text-caption"
+                        color="secondary" style="top: 5px">beta</q-badge>
                 </q-toolbar-title>
                 <q-space />
                 <div class="q-gutter-md">
-                    <q-btn :text-color="$q.dark.isActive ? 'white' : 'primary'" class="q-card--bordered"
-                        icon="sym_r_notifications" @click="rightDrawerOpen = !rightDrawerOpen" dense round unelevated>
+                    <q-btn flat dense round unelevated
+                        @click="$q.fullscreen.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
+                        :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
+                    <q-btn icon="sym_r_notifications" @click="rightDrawerOpen = !rightDrawerOpen" dense round unelevated>
                         <q-badge color="red" floating>0</q-badge>
                     </q-btn>
                 </div>
             </q-toolbar>
         </q-header>
-        <q-drawer :mini="!leftDrawerOpen || miniState" v-model="leftDrawerOpen" :mini-width="72" show-if-above
-            :class="$q.dark.isActive ? '' : 'bg-primary text-white'">
+        <q-drawer :mini="!leftDrawerOpen || miniState" v-model="leftDrawerOpen" :mini-width="72" show-if-above bordered
+            :class="$q.dark.isActive ? '' : 'bg-white'">
             <sidebar-menu :mine="miniState" />
             <div class="absolute" :style="`top:80px; right: -18px`">
                 <q-btn dense round unelevated :icon="!miniState ? 'sym_r_chevron_left' : 'sym_r_chevron_right'"

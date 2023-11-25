@@ -7,6 +7,7 @@
 </template>
 <script setup lang="ts">
 import 'gridstack/dist/gridstack.min.css'
+import '@/styles/gridstack-custom.sass'
 import { onMounted, ref } from 'vue'
 import { GridStack } from 'gridstack'
 import type { GridStackOptions, GridStackNode, GridStackWidget } from 'gridstack'
@@ -69,8 +70,8 @@ const gridItems = ref<any[]>([{
     h: 3,
     id: '6',
     content: {
-        title: 'Transaçoes por genero',
-        component: 'GenderTransaction',
+        title: 'Metodos de pagamento',
+        component: 'PaymentMethod',
     }
 },
 {
@@ -80,8 +81,8 @@ const gridItems = ref<any[]>([{
     h: 2,
     id: '7',
     content: {
-        title: 'Transaçoes por genero 7',
-        component: 'GenderTransaction',
+        title: 'Status de pagamento',
+        component: 'PaymentStatus',
     }
 }, {
     x: 8,
@@ -90,7 +91,7 @@ const gridItems = ref<any[]>([{
     h: 3,
     id: '8',
     content: {
-        title: 'Transaçoes por genero 8',
+        title: 'Transaçoes por genero',
         component: 'GenderTransaction',
     }
 }, {
@@ -100,20 +101,21 @@ const gridItems = ref<any[]>([{
     h: 2,
     id: '9',
     content: {
-        title: 'Transaçoes por Região 9',
+        title: 'Transaçoes por Região',
         component: 'RegionTransaction',
     }
 }])
 const options = ref<GridStackOptions>({
-    maxRow: 0,
+    maxRow: 20,
     minRow: 6,
+    cellHeight: 143,
     float: true,
     margin: 10,
     placeholderClass: 'grid-stack-placeholder',
     placeholderText: 'Drop Here',
-    resizable: {
-        handles: 'e, se, s, sw, w'
-    },
+    // resizable: {
+    //     handles: 'e, se, s, sw, w'
+    // },
     draggable: {
         handle: '.grid-stack-item__header'
     }

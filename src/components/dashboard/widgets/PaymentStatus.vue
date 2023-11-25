@@ -1,11 +1,5 @@
 <template>
-    <v-chart :option="option" class="no-scroll" :style="{ height: `${size.height}px` }" autoresize />
-    <div class="absolute-right  q-gutter-sm q-pt-xs" style="right:45px">
-        <q-btn icon="sym_r_bar_chart" dense flat round unelevated :color="typeChart === 'bar' ? 'accent' : ''"
-            @click="typeChart = 'bar'" />
-        <q-btn icon="sym_r_show_chart" dense flat round unelevated :color="typeChart === 'line' ? 'accent' : ''"
-            @click="typeChart = 'line'" />
-    </div>
+    <v-chart :option="options" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
     <div class="absolute-center fit z-top flex flex-center  bg-white" v-show="loading"> <q-spinner-cube color="primary"
             size="5.5em" />
     </div>
@@ -15,29 +9,24 @@ import { computed, ref } from "vue";
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart, LineChart } from 'echarts/charts';
-import { GridComponent } from 'echarts/components'
-import { graphic } from 'echarts'
+import { BarChart } from 'echarts/charts';
 import {
     TooltipComponent,
-    LegendComponent, AxisPointerComponent, VisualMapComponent
+    LegendComponent, AxisPointerComponent, VisualMapComponent, GridComponent
 } from 'echarts/components';
-import { colors, Dark } from 'quasar'
-import { getWidgetByTypeService } from "@/services/transactionServices";
-const { getPaletteColor } = colors
-const loading = ref<boolean>(false)
-const typeChart = ref<string>('line')
-const regions = ref<any[]>([])
+
 use([
     CanvasRenderer,
     BarChart,
-    LineChart,
     TooltipComponent,
     LegendComponent,
     VisualMapComponent,
     AxisPointerComponent,
     GridComponent
 ]);
+import { colors, Dark } from 'quasar'
+import { getWidgetByTypeService } from "@/services/transactionServices";
+const { getPaletteColor } = colors
 defineProps({
     size: {
         type: Object,
@@ -45,8 +34,29 @@ defineProps({
         required: false,
     },
 });
+const loading = ref<boolean>(false)
+const paymentStatus = ref<any>({})
 
-const option = computed(() => ({
+async function getPaymentStatusTransactions(): Promise<void> {
+    loading.value = true
+    try {
+        const { status, data } = await getWidgetByTypeService('payment_status') // redraw map to remove markers
+        if (status === 200) paymentStatus.value = data
+
+    } catch (error: any) {
+        console.log(error?.response?.data?.message)
+    } finally {
+        loading.value = false
+    }
+}
+
+getPaymentStatusTransactions()
+
+const options = computed(() => ({
+    textStyle: {
+        fontFamily: 'Poppins',
+        fontSize: '13px',
+    },
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -55,10 +65,6 @@ const option = computed(() => ({
                 color: getPaletteColor('secondary')
             }
         }
-    },
-    textStyle: {
-        fontFamily: 'Poppins',
-        fontSize: '14px'
     },
     xAxis: {
         type: 'category',
@@ -69,7 +75,7 @@ const option = computed(() => ({
         axisLabel: {
             color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
         },
-        data: Object.keys(regions.value),
+        data: Object.keys(paymentStatus.value),
         axisLine: {
             lineStyle: {
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
@@ -91,27 +97,12 @@ const option = computed(() => ({
     },
     series: [
         {
-            type: typeChart.value,
-            areaStyle: {
-                color: new graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                        offset: 0,
-                        color: getPaletteColor('accent')
-                    },
-                    {
-                        offset: 1,
-                        color: getPaletteColor('primary')
-                    }])
-            },
+            name: 'Payment Status',
+            type: 'bar',
+            data: Object.values(paymentStatus.value),
             color: getPaletteColor('primary'),
             label: {
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
-            },
-            data: Object.values(regions.value),
-            tooltip: {
-                valueFormatter: function (value: any) {
-                    return value + ' transações';
-                }
             },
             emphasis: {
                 itemStyle: {
@@ -122,26 +113,9 @@ const option = computed(() => ({
             itemStyle: {
                 borderRadius: [4, 4, 0, 0],
             }
-        },
+        }
     ]
 }));
-
-
-async function getRegionTransactions() {
-    loading.value = true
-    try {
-        const { status, data } = await getWidgetByTypeService('region') // redraw map to remove markers
-        if (status === 200) regions.value = data
-
-    } catch (error: any) {
-        console.log(error?.response?.data?.message)
-    } finally {
-        loading.value = false
-    }
-}
-
-getRegionTransactions()
-
 </script>
 
 <style></style>

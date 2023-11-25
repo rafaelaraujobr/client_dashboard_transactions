@@ -18,7 +18,7 @@ import type { PropType } from 'vue'
 const size = ref({ height: 200, width: 200 })
 const props = defineProps({
     item: {
-        type: Object as PropType<GridStackWidget>,
+        type: Object as PropType<GridStackWidget> | any,
         required: true
     },
 });

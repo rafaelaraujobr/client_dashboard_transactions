@@ -3,7 +3,7 @@
         <div class="absolute-center" style="min-width: 300px;">
             <q-item class="text-h4">
                 <q-item-section class="text-center">
-                    <q-item-label class="text-weight-bold"><vue3-autocounter :startAmount="0" :endAmount="itemsSold"
+                    <q-item-label class="text-weight-bold number"><vue3-autocounter :startAmount="0" :endAmount="itemsSold"
                             :duration="1" :autoinit="true" separator="." /></q-item-label>
                     <q-item-label class="text-caption" lines="2">Quantidade total de itens</q-item-label>
                 </q-item-section>

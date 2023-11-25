@@ -34,13 +34,13 @@ defineProps({
     },
 });
 const loading = ref<boolean>(false)
-const devices = ref<any>({})
+const paymentMethods = ref<any>({})
 
-async function getDeviceTransactions(): Promise<void> {
+async function getPaymentMethodsTransactions(): Promise<void> {
     loading.value = true
     try {
-        const { status, data } = await getWidgetByTypeService('device') // redraw map to remove markers
-        if (status === 200) devices.value = data
+        const { status, data } = await getWidgetByTypeService('payment_method') // redraw map to remove markers
+        if (status === 200) paymentMethods.value = data
 
     } catch (error: any) {
         console.log(error?.response?.data?.message)
@@ -49,7 +49,7 @@ async function getDeviceTransactions(): Promise<void> {
     }
 }
 
-getDeviceTransactions()
+getPaymentMethodsTransactions()
 
 const option = computed(() => ({
     textStyle: {
@@ -75,11 +75,10 @@ const option = computed(() => ({
     },
     series: [
         {
-            name: 'Devices',
+            name: 'Payment Methods',
             type: 'pie',
-            radius: [50, 100],
-            center: ['50%', '50%'],
-            color: [getPaletteColor('primary'), getPaletteColor('secondary'), getPaletteColor('accets')],
+            roseType: 'area',
+            color: [getPaletteColor('primary'), getPaletteColor('secondary'), getPaletteColor('accent'), getPaletteColor('dark')],
             itemStyle: {
                 borderRadius: 8,
                 fontFamily: 'Poppins',
@@ -91,9 +90,10 @@ const option = computed(() => ({
                 color: Dark.isActive ? getPaletteColor('grey-2') : getPaletteColor('grey-10'),
             },
             data: [
-                { value: devices.value?.mobile, name: 'Mobile' },
-                { value: devices.value?.desktop, name: 'Desktop' },
-                { value: devices.value?.tablet, name: 'Tablet' },
+                { value: paymentMethods.value?.credit_card, name: 'Cartão de credito' },
+                { value: paymentMethods.value?.debit_card, name: 'Cartão de debito' },
+                { value: paymentMethods.value?.pix, name: 'Pix' },
+                { value: paymentMethods.value?.ticket, name: 'Boleto' },
             ]
         }
     ]

@@ -10,7 +10,7 @@ import '@quasar/extras/material-symbols-rounded/material-symbols-rounded.css'
 import '@quasar/extras/animate/fadeIn.css'
 import '@quasar/extras/animate/fadeOut.css'
 
-import { AddressbarColor, Loading, Notify, Dialog, QSpinnerDots } from 'quasar'
+import { AddressbarColor, Loading, Notify, Dialog, QSpinnerDots, AppFullscreen } from 'quasar'
 import type { QuasarPluginOptions } from 'quasar'
 
 // Import Quasar css
@@ -18,7 +18,7 @@ import 'quasar/src/css/index.sass'
 import '@/styles/quasar-custom.sass'
 
 export const quasarOptions: Partial<QuasarPluginOptions> = {
-  plugins: { AddressbarColor, Loading, Notify, Dialog },
+  plugins: { AddressbarColor, Loading, Notify, Dialog, AppFullscreen },
   config: {
     loading: {
       spinner: QSpinnerDots as any,

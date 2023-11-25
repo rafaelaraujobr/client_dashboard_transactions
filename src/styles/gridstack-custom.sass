@@ -1,0 +1,53 @@
+@import './quasar-variables.sass'
+.grid-stack > .grid-stack-item > .ui-resizable-n,
+.grid-stack > .grid-stack-item > .ui-resizable-ne,
+.grid-stack > .grid-stack-item > .ui-resizable-e,
+.grid-stack > .grid-stack-item > .ui-resizable-se,
+.grid-stack > .grid-stack-item > .ui-resizable-s,
+.grid-stack > .grid-stack-item > .ui-resizable-sw,
+.grid-stack > .grid-stack-item > .ui-resizable-w,
+.grid-stack > .grid-stack-item > .ui-resizable-nw
+    background: url(data:image/svg+xml;base64,PHN2ZyBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjYiIGhlaWdodD0iNiI+PHBhdGggZD0iTTYgNkgwVjQuMmg0LjJWMEg2djZ6IiBvcGFjaXR5PSIuMzAyIi8+PC9zdmc+)
+    background-position: center
+    background-repeat: no-repeat
+    z-index: 9000 !important
+
+.grid-stack > .grid-stack-item > .ui-resizable-nw
+    transform: rotate(-180deg)
+    top: 10px
+
+.grid-stack > .grid-stack-item > .ui-resizable-n
+    transform: rotate(225deg)
+    top: 15px
+
+.grid-stack > .grid-stack-item > .ui-resizable-ne
+    transform: rotate(-90deg)
+    top: 10px
+
+.grid-stack > .grid-stack-item > .ui-resizable-w
+    transform: rotate(135deg)
+    left: 15px !important
+
+.grid-stack > .grid-stack-item > .ui-resizable-e
+    transform: rotate(-52deg)
+    right: 15px !important
+
+.grid-stack > .grid-stack-item > .ui-resizable-se
+    transform: rotate(0deg)
+
+.grid-stack > .grid-stack-item > .ui-resizable-s
+    transform: rotate(45deg)
+    bottom: 15px !important
+
+.grid-stack > .grid-stack-item > .ui-resizable-sw
+    transform: rotate(90deg)
+
+.grid-item-maximized
+    transition: all 0.5s ease-out
+    z-index: $z-fullscreen
+    transform: inherit !important
+    position: absolute !important
+    top: 1% !important
+    left: 1% !important
+    width: 98% !important
+    height: 98% !important
