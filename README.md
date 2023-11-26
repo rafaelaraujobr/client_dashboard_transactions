@@ -1,12 +1,21 @@
 # .
 
-## Screenshot
+## Screenshot light
 
-![Dashboard](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700941709/unrditdsb5lb8j2vwq3q.jpg)
+![Dashboard 1](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1701023559/t0ak5pmwnchvchis47hg.jpg)
 
-![Dashboard modo dark](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700941709/uyrujwjlpbz9na9ddixz.jpg)
+![Dashboard 2](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1701023559/yltgrdr9togcx88g614l.jpg)
 
-![Lista de transacoes](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1700941709/hrsx36rmepglfrf8ysxz.jpg)
+![Lista de transacoes](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1701023559/wgkxiwxmlufkxjyrinjh.jpg)
+
+## Screenshot Dark
+
+![Dashboard](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1701023559/jznrxvyblfwq3cuyaeb4.jpg)
+
+![Dashboard 2](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1701023559/sqwacszciipvbep84zc7.jpg)
+
+![Lista de transacoes + filter](https://res.cloudinary.com/dp0qcuzkq/image/upload/v1701023559/kqguhmqjweaxoubeckre.jpg)
+
 
 ## Configuração IDE recomendada
 
