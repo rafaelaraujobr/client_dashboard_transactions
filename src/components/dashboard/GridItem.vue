@@ -1,5 +1,6 @@
 <template>
-    <div class="grid-stack-item" :gs-x="item.x" :gs-y="item.y" :gs-w="item.w" :gs-h="item.h" :gs-min-w="item.minW" :gs-min-h="item.minH">
+    <div class="grid-stack-item" :gs-x="item.x" :gs-y="item.y" :gs-w="item.w" :gs-h="item.h" :gs-min-w="item.minW"
+        :gs-min-h="item.minH">
         <q-card class="grid-stack-item-content " flat bordered>
             <q-resize-observer @resize="onResize" />
             <q-toolbar style="min-height:40px" class="grid-stack-item__header q-pr-xs ">
@@ -7,7 +8,7 @@
                     {{ item.content?.title || 'Sem título' }}
                 </q-toolbar-title>
             </q-toolbar>
-            <component :is="component" :size="size" />
+            <component :is="component" :size="size" :item="item" />
         </q-card>
     </div>
 </template>

@@ -35,7 +35,11 @@ use([
     AxisPointerComponent,
     GridComponent
 ]);
-defineProps({
+const props = defineProps({
+    item: {
+        type: Object,
+        required: true,
+    },
     size: {
         type: Object,
         default: () => ({ height: 100, width: 100 }),
@@ -43,9 +47,9 @@ defineProps({
     },
 });
 const { filterDashboard } = useDashboardComposable()
-const { getPaletteColor } = colors
+const { getPaletteColor, changeAlpha } = colors
 const loading = ref<boolean>(false)
-const typeChart = ref<string>('line')
+const typeChart = ref<string>(props.item?.content?.type || 'line')
 const regions = ref<any[]>([])
 const option = computed(() => ({
     tooltip: {
@@ -106,22 +110,49 @@ const option = computed(() => ({
         {
             type: typeChart.value,
             smooth: true,
-            areaStyle: {
-                color: new graphic.LinearGradient(0, 0, 0, 1, [
-                    {
-                        offset: 0,
-                        color: getPaletteColor('accent')
-                    },
-                    {
-                        offset: 1,
-                        color: getPaletteColor('primary')
-                    }])
-            },
             color: getPaletteColor('primary'),
             label: {
                 color: Dark.isActive ? getPaletteColor('grey-5') : getPaletteColor('grey-10'),
             },
-            data: Object.values(regions.value),
+            areaStyle: {
+                color: new graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                        offset: 0,
+                        color: getPaletteColor('primary')
+                    },
+                    {
+                        offset: 1,
+                        color: changeAlpha(getPaletteColor('primary'), 0.5)
+                    }])
+            },
+            data: Object.values(regions.value).map((item: any) => {
+                const value = Math.max.apply(null, Object.values(regions.value));
+                return item === value ? {
+                    value: item, itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: getPaletteColor('secondary')
+                            },
+                            {
+                                offset: 1,
+                                color: changeAlpha(getPaletteColor('secondary'), 0.5)
+                            }])
+                    },
+                } : {
+                    value: item, itemStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [
+                            {
+                                offset: 0,
+                                color: getPaletteColor('accent')
+                            },
+                            {
+                                offset: 1,
+                                color: getPaletteColor('primary')
+                            }])
+                    },
+                }
+            }),
             tooltip: {
                 valueFormatter: function (value: any) {
                     return value + ' transações';

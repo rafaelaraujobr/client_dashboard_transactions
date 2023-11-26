@@ -23,6 +23,10 @@ import { useDashboardComposable } from '@/composables/dashboardComposable';
 import type { QueryParameters } from '@/utils/helpers';
 
 defineProps({
+    item: {
+        type: Object,
+        required: true,
+    },
     size: {
         type: Object,
         required: true

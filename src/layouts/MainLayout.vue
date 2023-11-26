@@ -12,6 +12,8 @@
                 </q-toolbar-title>
                 <q-space />
                 <div class="row q-gutter-md items-center">
+                    <q-select v-model="dashboardSelect" :options="dashboards" option-label="name" option-value="id" dense
+                        borderless label-color="white" />
                     <input-date-ranger @update="setFilterDashboard" v-show="routerCurrent == 'Dashboard'" dense borderless
                         clearable label-color="white" color="white" dark style="width: 220px;" colorIcon="white" />
                     <q-separator spaced inset vertical dark v-if="routerCurrent == 'Dashboard'" />
@@ -28,8 +30,8 @@
             <sidebar-menu :mine="miniState" />
             <div class="absolute" :style="`top:80px; right: -18px`">
                 <q-btn dense round unelevated :icon="!miniState ? 'sym_r_chevron_left' : 'sym_r_chevron_right'"
-                    @click="miniState = !miniState" class="q-card--bordered" :color="$q.dark.isActive ? 'dark' : 'grey-2'"
-                    :text-color="$q.dark.isActive ? 'white' : 'primary'" />
+                    @click="miniState = !miniState" class="q-card--bordered"
+                    :color="$q.dark.isActive ? 'primary' : 'grey-2'" :text-color="$q.dark.isActive ? 'white' : 'primary'" />
             </div>
         </q-drawer>
         <q-drawer side="right" v-model="filterDrawerTransaction" :class="$q.dark.isActive ? '' : 'bg-white text-dark'"
@@ -51,7 +53,7 @@ import { useTransactionComposable } from '@/composables/transactionComposable'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router';
 const router = useRouter()
-const { setFilterDashboard } = useDashboardComposable()
+const { setFilterDashboard, dashboards, dashboard, setDashboard } = useDashboardComposable()
 const { filterDrawerTransaction, setFilterDrawerTransaction } = useTransactionComposable()
 const leftDrawerOpen = ref<boolean>(false)
 const miniState = ref<boolean>(true)
@@ -59,5 +61,10 @@ const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
 }
 const routerCurrent = computed(() => router.currentRoute.value.name)
-
+const dashboardSelect = computed({
+    get: () => dashboard.value,
+    set: (value) => {
+        setDashboard(value)
+    }
+})
 </script>

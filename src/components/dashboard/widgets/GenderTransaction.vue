@@ -32,6 +32,10 @@ const { getPaletteColor, changeAlpha } = colors
 const loading = ref<boolean>(false)
 const genders = ref<any>({})
 defineProps({
+    item: {
+        type: Object,
+        required: true,
+    },
     size: {
         type: Object,
         default: () => ({ height: 100, width: 100 }),

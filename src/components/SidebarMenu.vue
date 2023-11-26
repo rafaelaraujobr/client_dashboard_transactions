@@ -13,12 +13,13 @@
                         ">
                     <q-item-section avatar>
                         <q-icon :name="currentRoute === item.route ? item.icon : `sym_r_${item.icon}`"
-                            :color="currentRoute === item.route ? 'secondary' : 'grey-8'"
+                            :color="currentRoute === item.route ? 'secondary' :  $q.dark.isActive ? 'grey-3' : 'grey-8'"
                             :class="currentRoute === item.route ? 'q-pa-xs' : 'q-pa-xs rounded-borders'" />
                     </q-item-section>
-                    <q-item-section :class="currentRoute === item.route ? 'text-weight-medium text-secondary' : 'text-grey-8'">{{
-                        item.label
-                    }}</q-item-section>
+                    <q-item-section
+                        :class="currentRoute === item.route ? 'text-weight-medium text-secondary' : $q.dark.isActive ? 'text-grey-3' : 'text-grey-8'">{{
+                            item.label
+                        }}</q-item-section>
                 </q-item>
             </template>
         </q-list>

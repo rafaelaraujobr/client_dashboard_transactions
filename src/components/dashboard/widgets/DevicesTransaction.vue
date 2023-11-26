@@ -29,6 +29,10 @@ use([
 ]);
 const { getPaletteColor } = colors
 defineProps({
+    item: {
+        type: Object,
+        required: true,
+    },
     size: {
         type: Object,
         default: () => ({ height: 100, width: 100 }),

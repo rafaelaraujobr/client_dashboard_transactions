@@ -22,6 +22,10 @@ import { Dark } from 'quasar'
 import type { QueryParameters } from '@/utils/helpers';
 import { useDashboardComposable } from '@/composables/dashboardComposable';
 defineProps({
+    item: {
+        type: Object,
+        required: true,
+    },
     size: {
         type: Object,
         required: true

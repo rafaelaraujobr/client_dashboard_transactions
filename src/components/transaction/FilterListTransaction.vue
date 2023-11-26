@@ -9,21 +9,21 @@
         <q-separator />
         <q-card-section class="q-gutter-md">
             <q-select v-model="form.region" :options="regionList" label="UF" outlined dense map-options
-                dropdown-icon="sym_r_expand_more" color-icon />
+                dropdown-icon="sym_r_expand_more" color-icon :bg-color="$q.dark.isActive ? 'grey-9' : 'grey-1'" />
             <q-select v-model="form.paymentMethod" :options="paymentMethodList" label="Método de pagamento" outlined
-                map-options dense dropdown-icon="sym_r_expand_more" />
+                map-options dense dropdown-icon="sym_r_expand_more"  :bg-color="$q.dark.isActive ? 'grey-9' : 'grey-1'" />
             <q-select v-model="form.paymentStatus" :options="paymentStatusList" label="Status do pagamento" outlined dense
-                map-options dropdown-icon="sym_r_expand_more" />
+                map-options dropdown-icon="sym_r_expand_more"  :bg-color="$q.dark.isActive ? 'grey-9' : 'grey-1'" />
             <q-select v-model="form.gender" :options="genderList" label="Gênero" outlined dense map-options
-                dropdown-icon="sym_r_expand_more" />
+                dropdown-icon="sym_r_expand_more"  :bg-color="$q.dark.isActive ? 'grey-9' : 'grey-1'"/>
             <q-select v-model="form.device" :options="deviceList" label="Dispositivo" outlined dense map-options
-                dropdown-icon="sym_r_expand_more" />
+                dropdown-icon="sym_r_expand_more"  :bg-color="$q.dark.isActive ? 'grey-9' : 'grey-1'" />
         </q-card-section>
         <div class="absolute-bottom">
             <q-separator />
             <q-card-section class="row justify-end q-gutter-sm">
                 <q-btn color="primary" label="Limpar" dense unelevated no-caps outline
-                    v-if="Object.keys(filterTransaction).length > 0" @click="onReset"  padding="sm lg" />
+                    v-if="Object.keys(filterTransaction).length > 0" @click="onReset" padding="sm lg" />
                 <q-btn color="primary" label="Cancelar" dense unelevated no-caps outline v-else @click="emit('close')"
                     padding="sm lg" />
                 <q-btn color="primary" label="Filtrar" dense unelevated no-caps @click="onFilter" padding="sm lg" />
