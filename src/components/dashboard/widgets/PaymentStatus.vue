@@ -1,11 +1,11 @@
 <template>
     <v-chart :option="options" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
     <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
-        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
+        v-show="loading"> <q-spinner-oval color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -14,7 +14,11 @@ import {
     TooltipComponent,
     LegendComponent, AxisPointerComponent, VisualMapComponent, GridComponent
 } from 'echarts/components';
-
+import { colors, Dark } from 'quasar'
+import { getWidgetByTypeService } from "@/services/transactionServices";
+import { graphic } from "echarts";
+import { useDashboardComposable } from '@/composables/dashboardComposable';
+import type { QueryParameters } from '@/utils/helpers';
 use([
     CanvasRenderer,
     BarChart,
@@ -24,10 +28,6 @@ use([
     AxisPointerComponent,
     GridComponent
 ]);
-import { colors, Dark } from 'quasar'
-import { getWidgetByTypeService } from "@/services/transactionServices";
-import { graphic } from "echarts";
-const { getPaletteColor, changeAlpha } = colors
 defineProps({
     size: {
         type: Object,
@@ -35,13 +35,15 @@ defineProps({
         required: false,
     },
 });
+const { filterDashboard } = useDashboardComposable()
+const { getPaletteColor, changeAlpha } = colors
 const loading = ref<boolean>(false)
 const paymentStatus = ref<any>({})
 
-async function getPaymentStatusTransactions(): Promise<void> {
+async function getPaymentStatusTransactions(query: QueryParameters = {}): Promise<void> {
     loading.value = true
     try {
-        const { status, data } = await getWidgetByTypeService('payment_status') // redraw map to remove markers
+        const { status, data } = await getWidgetByTypeService('payment_status', query) // redraw map to remove markers
         if (status === 200) paymentStatus.value = data
 
     } catch (error: any) {
@@ -50,6 +52,11 @@ async function getPaymentStatusTransactions(): Promise<void> {
         loading.value = false
     }
 }
+
+watch(filterDashboard, (value) => {
+    getPaymentStatusTransactions(value)
+})
+
 
 getPaymentStatusTransactions()
 

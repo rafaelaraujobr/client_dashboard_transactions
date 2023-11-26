@@ -16,12 +16,13 @@
                     <q-chip removable @remove="onRemoveFilter(item)" icon-remove="sym_r_close" :label="item"
                         text-color="white" color="primary" />
                 </template>
-                <q-input v-model="search" type="search" label="Buscar..." dense outlined :bg-color="$q.dark.isActive ? 'grey-10' : 'white'" debounce="300"
-                    clear-icon="sym_r_close" clearable>
+                <q-input v-model="search" type="search" label="Buscar..." dense outlined
+                    :bg-color="$q.dark.isActive ? 'grey-10' : 'white'" debounce="300" clear-icon="sym_r_close" clearable>
                     <template v-slot:prepend>
                         <q-icon name="sym_r_search" />
                     </template>
                 </q-input>
+                <input-date-ranger @update="onFilterDate" dense outlined :bg-color="$q.dark.isActive ? 'grey-10' : 'white'"/>
                 <q-btn :text-color="$q.dark.isActive ? 'white' : 'dark'" :color="$q.dark.isActive ? 'primary' : 'white'"
                     :icon="filterDialog ? 'sym_r_filter_list_off' : 'sym_r_filter_list'" class="borderless q-card--bordered"
                     @click="filterDialog = !filterDialog" dense unelevated padding="sm">
@@ -43,6 +44,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import ListTransaction from '@/components/transaction/ListTransaction.vue'
+import InputDateRanger from '@/components/InputDateRanger.vue'
 import FilterListTransaction from '@/components/transaction/FilterListTransaction.vue';
 import DetailTransaction from '@/components/transaction/DetailTransaction.vue';
 import { useTransactionComposable } from '@/composables/transactionComposable'
@@ -65,11 +67,15 @@ watch(search, (value) => {
 watch(() => props.id, () => {
     onOpenDetail()
 })
-function onRemoveFilter(item: string) {
+function onRemoveFilter(item: string): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [item]: _, ...rest } = filterTransaction.value
     setFilterTransaction(rest)
     setQueryTransaction({ ...queryTransaction.value, [item]: '' })
+    getTransactions(queryTransaction.value)
+}
+function onFilterDate(date: any): void {
+    setQueryTransaction({ ...queryTransaction.value, ...date })
     getTransactions(queryTransaction.value)
 }
 function onOpenDetail(): void {

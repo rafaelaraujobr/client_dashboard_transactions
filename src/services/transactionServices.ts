@@ -10,6 +10,6 @@ export const getTransactionByIdService = async (id: number): Promise<AxiosRespon
   return await http.get<AxiosInstance>(`transactions/${id}`)
 }
 
-export const getWidgetByTypeService = async (type: string): Promise<AxiosResponse> => {
-  return await http.get<AxiosInstance>(`widgets/${type}/dashboard`)
+export const getWidgetByTypeService = async (type: string, query: QueryParameters = {}): Promise<AxiosResponse> => {
+  return await http.get<AxiosInstance>(`widgets/${type}/dashboard${objectToQueryString(query)}`)
 }

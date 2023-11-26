@@ -20,8 +20,8 @@
         <q-card-section class="row justify-end q-gutter-sm">
             <q-btn color="primary" label="Limpar" dense unelevated no-caps outline
                 v-if="Object.keys(filterTransaction).length > 0" @click="onReset" />
-            <q-btn color="primary" label="Cancelar" dense unelevated no-caps outline v-else @click="emit('close')" />
-            <q-btn color="primary" label="Filtrar" dense unelevated no-caps @click="onFilter" />
+            <q-btn color="primary" label="Cancelar" dense unelevated no-caps outline v-else @click="emit('close')" padding="sm lg" />
+            <q-btn color="primary" label="Filtrar" dense unelevated no-caps @click="onFilter" padding="sm lg"/>
         </q-card-section>
     </q-card>
 </template>

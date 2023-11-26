@@ -1,11 +1,11 @@
 <template>
     <v-chart :option="option" :style="`height:${size.height}px; width:${size.width}px;`" class="no-scroll" autoresize />
     <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
-        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
+        v-show="loading"> <q-spinner-oval color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -16,6 +16,9 @@ import {
 } from 'echarts/components';
 import { colors, Dark } from 'quasar'
 import { getWidgetByTypeService } from "@/services/transactionServices";
+import { useDashboardComposable } from '@/composables/dashboardComposable';
+import type { QueryParameters } from "@/utils/helpers";
+const { filterDashboard } = useDashboardComposable()
 use([
     CanvasRenderer,
     PieChart,
@@ -82,10 +85,10 @@ const option = computed(() => ({
     ]
 }));
 
-async function getDeviceTransactions(): Promise<void> {
+async function getDeviceTransactions(query: QueryParameters = {}): Promise<void> {
     loading.value = true
     try {
-        const { status, data } = await getWidgetByTypeService('device')
+        const { status, data } = await getWidgetByTypeService('device', query)
         if (status === 200) devices.value = data
 
     } catch (error: any) {
@@ -94,6 +97,10 @@ async function getDeviceTransactions(): Promise<void> {
         loading.value = false
     }
 }
+
+watch(filterDashboard, (value) => {
+    getDeviceTransactions(value)
+})
 
 getDeviceTransactions()
 </script>

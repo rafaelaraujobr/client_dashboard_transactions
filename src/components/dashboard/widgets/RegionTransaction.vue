@@ -7,11 +7,11 @@
             @click="typeChart = 'line'" />
     </div>
     <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
-        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
+        v-show="loading"> <q-spinner-oval color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -23,10 +23,8 @@ import {
 } from 'echarts/components';
 import { colors, Dark } from 'quasar'
 import { getWidgetByTypeService } from "@/services/transactionServices";
-const { getPaletteColor } = colors
-const loading = ref<boolean>(false)
-const typeChart = ref<string>('line')
-const regions = ref<any[]>([])
+import { useDashboardComposable } from '@/composables/dashboardComposable';
+import type { QueryParameters } from '@/utils/helpers';
 use([
     CanvasRenderer,
     BarChart,
@@ -44,7 +42,11 @@ defineProps({
         required: false,
     },
 });
-
+const { filterDashboard } = useDashboardComposable()
+const { getPaletteColor } = colors
+const loading = ref<boolean>(false)
+const typeChart = ref<string>('line')
+const regions = ref<any[]>([])
 const option = computed(() => ({
     tooltip: {
         trigger: 'axis',
@@ -140,10 +142,10 @@ const option = computed(() => ({
 }));
 
 
-async function getRegionTransactions() {
+async function getRegionTransactions(query: QueryParameters = {}) {
     loading.value = true
     try {
-        const { status, data } = await getWidgetByTypeService('region') // redraw map to remove markers
+        const { status, data } = await getWidgetByTypeService('region', query) // redraw map to remove markers
         if (status === 200) regions.value = data
 
     } catch (error: any) {
@@ -152,6 +154,9 @@ async function getRegionTransactions() {
         loading.value = false
     }
 }
+watch(filterDashboard, (value) => {
+    getRegionTransactions(value)
+})
 
 getRegionTransactions()
 

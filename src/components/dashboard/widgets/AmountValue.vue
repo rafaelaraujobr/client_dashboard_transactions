@@ -11,28 +11,30 @@
         </div>
     </q-card>
     <div class="absolute-center fit z-top flex flex-center " :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
-        v-show="loading"> <q-spinner-cube color="primary" size="5.5em" />
+        v-show="loading"> <q-spinner-oval color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
 import { getWidgetByTypeService } from '@/services/transactionServices';
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 import Vue3Autocounter from 'vue3-autocounter';
 import { Dark } from 'quasar'
+import type { QueryParameters } from '@/utils/helpers';
+import { useDashboardComposable } from '@/composables/dashboardComposable';
 defineProps({
     size: {
         type: Object,
         required: true
     },
 });
-
+const { filterDashboard } = useDashboardComposable()
 const loading = ref<boolean>(false)
 const amountValue = ref<number>(0)
 
-async function getAmountValueTransactions(): Promise<void> {
+async function getAmountValueTransactions(query: QueryParameters = {}): Promise<void> {
     loading.value = true
     try {
-        const { status, data } = await getWidgetByTypeService('revenue') // redraw map to remove markers
+        const { status, data } = await getWidgetByTypeService('revenue', query) // redraw map to remove markers
         if (status === 200) amountValue.value = +data
     } catch (error: any) {
         console.log(error?.response?.data?.message)
@@ -40,5 +42,8 @@ async function getAmountValueTransactions(): Promise<void> {
         loading.value = false
     }
 }
+watch(filterDashboard, (value) => {
+    getAmountValueTransactions(value)
+})
 getAmountValueTransactions()
 </script>

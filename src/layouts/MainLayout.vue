@@ -7,18 +7,21 @@
                 <q-separator inset vertical dark />
                 <q-toolbar-title>
                     <!-- <q-img src="@/assets/logotipo.svg" width="150px" /> -->
-                    <q-skeleton :type="'react'" style="width: 150px"  class="bg-secondary" />
+                    <q-skeleton type="rect" style="width: 150px" class="bg-secondary" />
                     <!-- <q-badge class="absolute text-caption" color="secondary" style="top: 5px">beta</q-badge> -->
                 </q-toolbar-title>
                 <q-space />
-                <div class="q-gutter-md">
+                <div class="row q-gutter-md items-center">
+                    <input-date-ranger @update="setFilterDashboard" v-show="routerCurrent == 'Dashboard'" dense borderless
+                        clearable label-color="white" color="white" dark style="width: 220px;" />
+                    <q-separator spaced inset vertical dark />
                     <q-btn flat dense round unelevated
                         @click="$q.fullscreen.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
                         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
                     <q-btn flat dense round unelevated @click="$q.dark.toggle()"
                         :icon="$q.dark.isActive ? 'sym_r_dark_mode' : 'sym_r_light_mode'" />
                     <q-btn icon="sym_r_notifications" @click="rightDrawerOpen = !rightDrawerOpen" dense round unelevated>
-                        <q-badge color="red" floating>0</q-badge>
+                        <q-badge color="secondary" floating>0</q-badge>
                     </q-btn>
                 </div>
             </q-toolbar>
@@ -47,11 +50,18 @@
   
 <script lang="ts" setup>
 import SidebarMenu from '@/components/SidebarMenu.vue';
-import { ref } from 'vue'
+import InputDateRanger from '@/components/InputDateRanger.vue';
+import { useDashboardComposable } from '@/composables/dashboardComposable';
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const { setFilterDashboard } = useDashboardComposable()
 const leftDrawerOpen = ref<boolean>(false)
 const rightDrawerOpen = ref<boolean>(false)
 const miniState = ref<boolean>(true)
 const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
 }
+const routerCurrent = computed(() => router.currentRoute.value.name)
+
 </script>

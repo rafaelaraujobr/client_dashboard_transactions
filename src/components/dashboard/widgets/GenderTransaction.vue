@@ -1,12 +1,11 @@
 <template>
     <v-chart :option="option" :style="`height:${size.height}px;`" class="no-scroll" autoresize />
     <div class="absolute-center fit z-top flex flex-center" :class="Dark.isActive ? 'bg-grey-10' : 'bg-white'"
-        v-show="loading"> <q-spinner-cube color="primary" size="5.5em">
-        </q-spinner-cube>
+        v-show="loading"> <q-spinner-oval color="primary" size="5.5em" />
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import VChart from 'vue-echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -15,7 +14,8 @@ import {
     TooltipComponent,
     LegendComponent, AxisPointerComponent, VisualMapComponent
 } from 'echarts/components';
-
+import { useDashboardComposable } from '@/composables/dashboardComposable';
+const { filterDashboard } = useDashboardComposable()
 use([
     CanvasRenderer,
     PieChart,
@@ -27,6 +27,7 @@ use([
 import { colors, Dark } from 'quasar'
 import { getWidgetByTypeService } from "@/services/transactionServices";
 import { graphic } from "echarts";
+import type { QueryParameters } from "@/utils/helpers";
 const { getPaletteColor, changeAlpha } = colors
 const loading = ref<boolean>(false)
 const genders = ref<any>({})
@@ -38,10 +39,10 @@ defineProps({
     },
 });
 
-async function getGenderTransactions(): Promise<void> {
+async function getGenderTransactions(query: QueryParameters = {}): Promise<void> {
     loading.value = true
     try {
-        const { status, data } = await getWidgetByTypeService('gender') // redraw map to remove markers
+        const { status, data } = await getWidgetByTypeService('gender', query) // redraw map to remove markers
         if (status === 200) genders.value = data
 
     } catch (error: any) {
@@ -50,6 +51,10 @@ async function getGenderTransactions(): Promise<void> {
         loading.value = false
     }
 }
+
+watch(filterDashboard, (value) => {
+    getGenderTransactions(value)
+})
 
 getGenderTransactions()
 
