@@ -2,12 +2,11 @@ import { useTransactionStore } from '@/stores/transaction'
 import { storeToRefs } from 'pinia'
 import { getTransactionsService, getTransactionByIdService } from '@/services/transactionServices'
 import { useQuasar } from 'quasar'
-
 export const useTransactionComposable = () => {
   const $q = useQuasar()
-  const { setTransactions, setTransaction, setCountTransactions, setQueryTransaction, setFilterTransaction } =
+  const { setTransactions, setTransaction, setCountTransactions, setQueryTransaction, setFilterTransaction,setFilterDrawerTransaction } =
     useTransactionStore()
-  const { transactions, transaction, queryTransaction, countTransactions, filterTransaction } =
+  const { transactions, transaction, queryTransaction, countTransactions, filterTransaction, filterDrawerTransaction } =
     storeToRefs(useTransactionStore())
   async function getTransactions(query: any): Promise<void> {
     $q.loading.show()
@@ -40,10 +39,12 @@ export const useTransactionComposable = () => {
     queryTransaction,
     countTransactions,
     filterTransaction,
+    filterDrawerTransaction,
     getTransactions,
     setTransaction,
     getTransactionById,
     setQueryTransaction,
-    setFilterTransaction
+    setFilterTransaction,
+    setFilterDrawerTransaction
   }
 }

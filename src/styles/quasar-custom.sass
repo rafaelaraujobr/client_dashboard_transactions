@@ -82,21 +82,14 @@ input:-webkit-autofill:active
         &:first-child th
             background-color: #fafafa
         tbody tr
-            transition: all 0.2s ease-in-out
             background-color: white
             &:hover
                 background-color: white
                 td
                     padding: 8px
-            // &:nth-child(even)
-            //     background-color: #fafafa
-            // &:nth-child(odd)
-            //     background-color: white
             &:hover td
-                // border-color: $primary
                 cursor: pointer
             td
-                transition: all 0.2s ease-in-out
                 &:first-child
                     border-radius: $generic-border-radius 0 0 $generic-border-radius
                     border-width: 1px 0 1px 1px
@@ -116,7 +109,6 @@ input:-webkit-autofill:active
                 background-color: $dark
             tbody tr
                 background-color: $grey-10
-                    // transition: opacity 0.2s ease-in-out
         .q-table__bottom
             background: $dark!important
 
@@ -148,8 +140,3 @@ input:-webkit-autofill:active
         height: 20px
         background-color: $secondary
         transition: opacity 0.2s ease-in-out
-
-// .q-date__calendar-item
-//     button
-//         line-height: 16px
-//         border-radius: 8px

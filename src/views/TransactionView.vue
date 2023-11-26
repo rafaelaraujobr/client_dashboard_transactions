@@ -26,7 +26,7 @@
                     :bg-color="$q.dark.isActive ? 'grey-10' : 'white'" />
                 <q-btn :text-color="$q.dark.isActive ? 'white' : 'dark'" :color="$q.dark.isActive ? 'primary' : 'white'"
                     :icon="filterDialog ? 'sym_r_filter_list_off' : 'sym_r_filter_list'" class="borderless q-card--bordered"
-                    @click="filterDialog = !filterDialog" dense unelevated padding="sm">
+                    @click="setFilterDrawerTransaction(!filterDrawerTransaction)" dense unelevated padding="sm">
                     <q-badge color="secondary" floating v-if="Object.keys(filterTransaction).length > 0">
                         {{ Object.keys(filterTransaction).length }}</q-badge>
                 </q-btn>
@@ -34,9 +34,6 @@
         </q-toolbar>
         <list-transaction />
     </q-page>
-    <q-dialog v-model="filterDialog" persistent position="right" seamless>
-        <filter-list-transaction @close="filterDialog = false" />
-    </q-dialog>
     <q-dialog v-model="detailDialog" persistent>
         <detail-transaction @close="detailDialog = false" :id="id" />
     </q-dialog>
@@ -46,10 +43,9 @@
 import { ref, watch } from 'vue'
 import ListTransaction from '@/components/transaction/ListTransaction.vue'
 import InputDateRanger from '@/components/InputDateRanger.vue'
-import FilterListTransaction from '@/components/transaction/FilterListTransaction.vue';
 import DetailTransaction from '@/components/transaction/DetailTransaction.vue';
 import { useTransactionComposable } from '@/composables/transactionComposable'
-const { getTransactions, queryTransaction, setQueryTransaction, filterTransaction, setFilterTransaction } = useTransactionComposable()
+const { getTransactions, queryTransaction, setQueryTransaction, filterTransaction, setFilterTransaction, setFilterDrawerTransaction, filterDrawerTransaction } = useTransactionComposable()
 const filterDialog = ref<boolean>(false)
 const detailDialog = ref<boolean>(false)
 const search = ref<string>('')

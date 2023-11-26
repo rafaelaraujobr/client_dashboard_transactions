@@ -13,16 +13,13 @@
                 <q-space />
                 <div class="row q-gutter-md items-center">
                     <input-date-ranger @update="setFilterDashboard" v-show="routerCurrent == 'Dashboard'" dense borderless
-                        clearable label-color="white" color="white" dark style="width: 220px;" />
-                    <q-separator spaced inset vertical dark />
+                        clearable label-color="white" color="white" dark style="width: 220px;" colorIcon="white" />
+                    <q-separator spaced inset vertical dark v-if="routerCurrent == 'Dashboard'" />
                     <q-btn flat dense round unelevated
                         @click="$q.fullscreen.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
                         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
                     <q-btn flat dense round unelevated @click="$q.dark.toggle()"
                         :icon="$q.dark.isActive ? 'sym_r_dark_mode' : 'sym_r_light_mode'" />
-                    <q-btn icon="sym_r_notifications" @click="rightDrawerOpen = !rightDrawerOpen" dense round unelevated>
-                        <q-badge color="secondary" floating>0</q-badge>
-                    </q-btn>
                 </div>
             </q-toolbar>
         </q-header>
@@ -35,12 +32,9 @@
                     :text-color="$q.dark.isActive ? 'white' : 'primary'" />
             </div>
         </q-drawer>
-        <q-drawer side="right" v-model="rightDrawerOpen" :class="$q.dark.isActive ? '' : 'bg-white text-dark'" overlay
-            bordered>
-            <q-toolbar>
-                <q-toolbar-title class="text-body1"> Notificacoes </q-toolbar-title>
-                <q-btn flat round dense icon="sym_r_close" @click="rightDrawerOpen = false" />
-            </q-toolbar>
+        <q-drawer side="right" v-model="filterDrawerTransaction" :class="$q.dark.isActive ? '' : 'bg-white text-dark'"
+            :width="400" bordered v-if="routerCurrent == 'Transactions'">
+            <filter-list-transaction @close="setFilterDrawerTransaction(false)" />
         </q-drawer>
         <q-page-container :class="!$q.dark.isActive ? 'bg-grey-1' : ''">
             <router-view />
@@ -51,13 +45,15 @@
 <script lang="ts" setup>
 import SidebarMenu from '@/components/SidebarMenu.vue';
 import InputDateRanger from '@/components/InputDateRanger.vue';
+import FilterListTransaction from '@/components/transaction/FilterListTransaction.vue';
 import { useDashboardComposable } from '@/composables/dashboardComposable';
+import { useTransactionComposable } from '@/composables/transactionComposable'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router';
 const router = useRouter()
 const { setFilterDashboard } = useDashboardComposable()
+const { filterDrawerTransaction, setFilterDrawerTransaction } = useTransactionComposable()
 const leftDrawerOpen = ref<boolean>(false)
-const rightDrawerOpen = ref<boolean>(false)
 const miniState = ref<boolean>(true)
 const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value

@@ -8,6 +8,7 @@ export const useTransactionStore = defineStore('transaction', () => {
   const countTransactions = ref<number>(0)
   const queryTransaction = ref<QueryParameters>({ page: 1, perPage: 10 })
   const filterTransaction = ref<any>({})
+  const filterDrawerTransaction = ref<boolean>(false)
 
   function setTransactions(data: any[]): void {
     transactions.value = data
@@ -26,16 +27,22 @@ export const useTransactionStore = defineStore('transaction', () => {
     filterTransaction.value = data
   }
 
+  function setFilterDrawerTransaction(data: boolean): void {
+    filterDrawerTransaction.value = data
+  }
+
   return {
     transactions,
     transaction,
     countTransactions,
     queryTransaction,
     filterTransaction,
+    filterDrawerTransaction,
     setTransactions,
     setTransaction,
     setCountTransactions,
     setQueryTransaction,
-    setFilterTransaction
+    setFilterTransaction,
+    setFilterDrawerTransaction
   }
 })
