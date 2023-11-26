@@ -39,7 +39,7 @@ defineProps({
 const menus = ref<any[]>([
     {
         icon: 'dashboard',
-        label: 'Painel de controle',
+        label: 'Dashboard',
         route: '/dashboard',
         children: []
     },

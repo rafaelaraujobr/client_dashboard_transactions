@@ -20,7 +20,7 @@ const $q = useQuasar()
 let grid: GridStack
 const heightPanel = computed<number>((): number => $q.screen.height)
 const heightGridStack = computed<number>((): number => {
-    return heightPanel.value - (50 + 24 + 24)
+    return heightPanel.value - (50 + 24 + 24 + 50)
 })
 const row = ref<number>(6)
 const column = ref<number>(12)

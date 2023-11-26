@@ -12,11 +12,6 @@
                 </q-toolbar-title>
                 <q-space />
                 <div class="row q-gutter-md items-center">
-                    <q-select v-model="dashboardSelect" :options="dashboards" option-label="name" option-value="id" dense
-                        borderless label-color="white" />
-                    <input-date-ranger @update="setFilterDashboard" v-show="routerCurrent == 'Dashboard'" dense borderless
-                        clearable label-color="white" color="white" dark style="width: 220px;" colorIcon="white" />
-                    <q-separator spaced inset vertical dark v-if="routerCurrent == 'Dashboard'" />
                     <q-btn flat dense round unelevated
                         @click="$q.fullscreen.toggle(), leftDrawerOpen = $q.fullscreen.isActive"
                         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'" />
@@ -46,14 +41,11 @@
   
 <script lang="ts" setup>
 import SidebarMenu from '@/components/SidebarMenu.vue';
-import InputDateRanger from '@/components/InputDateRanger.vue';
 import FilterListTransaction from '@/components/transaction/FilterListTransaction.vue';
-import { useDashboardComposable } from '@/composables/dashboardComposable';
 import { useTransactionComposable } from '@/composables/transactionComposable'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router';
 const router = useRouter()
-const { setFilterDashboard, dashboards, dashboard, setDashboard } = useDashboardComposable()
 const { filterDrawerTransaction, setFilterDrawerTransaction } = useTransactionComposable()
 const leftDrawerOpen = ref<boolean>(false)
 const miniState = ref<boolean>(true)
@@ -61,10 +53,4 @@ const toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
 }
 const routerCurrent = computed(() => router.currentRoute.value.name)
-const dashboardSelect = computed({
-    get: () => dashboard.value,
-    set: (value) => {
-        setDashboard(value)
-    }
-})
 </script>
