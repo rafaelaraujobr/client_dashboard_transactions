@@ -1,6 +1,5 @@
 <template>
-    <q-input @clear="onClear" clear-icon="sym_r_close" @click="popupRef.show()" v-model="dateRange" v-bind="$attrs"
-        placeholder="Filtrar por data" ref="inputRef">
+    <q-input @clear="onClear" clear-icon="sym_r_close" @click="popupRef.show()" v-model="dateRange" v-bind="$attrs"  placeholder="Filtrar por data" ref="inputRef">
         <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer" color="secondary">
                 <q-popup-proxy ref="popupRef">
