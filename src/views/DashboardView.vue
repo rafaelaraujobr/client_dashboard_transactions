@@ -9,7 +9,7 @@
         <q-select v-model="dashboardSelect" :options="dashboards" option-label="name" option-value="id"
           :bg-color="$q.dark.isActive ? 'grey-10' : 'white'" style="width: 220px;" dense outlined label-color="white"
           dropdown-icon="sym_r_expand_more" transition-show="flip-up" transition-hide="flip-down" />
-        <input-date-ranger @update="setFilterDashboard" dense borderless clearable style="width: 220px;" outlined
+        <input-date-ranger @update="setFilterDashboard" dense borderless clearable style="width: 250px;" outlined
           :bg-color="$q.dark.isActive ? 'grey-10' : 'white'" />
       </div>
     </q-toolbar>
